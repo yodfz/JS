@@ -1,24 +1,24 @@
 /**
- * Created by Òİ·ç on 2015/8/19.
- * Description:´ËJSÖ÷Òª¸ù¾İ¸øÓèµÄÌõ¼şÅĞ¶ÏÊı¾İÊÇ·ñ·ûºÏÑ¡Ïî
+ * Created by é€¸é£ on 2015/8/19.
+ * Description:æ­¤JSä¸»è¦æ ¹æ®ç»™äºˆçš„æ¡ä»¶åˆ¤æ–­æ•°æ®æ˜¯å¦ç¬¦åˆé€‰é¡¹
  *
  * Demo:
- *   var _c={"material":"Í·²ãÅ£Æ¤/º£Ãà/¾Ûõ¥ÏËÎ¬/Ó²Ä¾"};
-     var _d=[
-     {"sku":1045280615,"material":"Òâ´óÀûÍ·²ãÅ£Æ¤/º£Ãà/¾Ûõ¥ÏËÎ¬/Ó²Ä¾","color":"ÍÕ»ÆÉ«","specification":"³¤72.5X¿í52X¸ß46.5CM","salesstates":"ZX","tooltips":"Òâ´óÀûÍ·²ãÅ£Æ¤-ÍÕ»ÆÉ«"},
-     {"sku":1045280613,"material":"Í·²ãÅ£Æ¤/º£Ãà/¾Ûõ¥ÏËÎ¬/Ó²Ä¾","color":"ÉîºÖÉ«","specification":"³¤72.5X¿í52X¸ß46.5CM","salesstates":"ZS","tooltips":"Í·²ãÅ£Æ¤-ÉîºÖÉ«"},
-     {"sku":1045280612,"material":"Òâ´óÀûÍ·²ãÅ£Æ¤/º£Ãà/¾Ûõ¥ÏËÎ¬/Ó²Ä¾","color":"Å¨¿§·ÈÉ«","specification":"³¤72.5X¿í52X¸ß46.5CM","salesstates":"ZS","tooltips":"Òâ´óÀûÍ·²ãÅ£Æ¤-Å¨¿§·ÈÉ«"},
-     {"sku":1045280611,"material":"Òâ´óÀûÍ·²ãÅ£Æ¤/º£Ãà/¾Ûõ¥ÏËÎ¬/Ó²Ä¾","color":"ÉîÀõÉ«","specification":"³¤72.5X¿í52X¸ß46.5CM","salesstates":"Z1","tooltips":"Òâ´óÀûÍ·²ãÅ£Æ¤-ÉîÀõÉ«"}
-     ];
-     console.log(Check(_d[0],_c));
-     console.log(Check(_d[1],_c));
-     console.log(Check(_d[2],_c));
-     console.log(Check(_d[3],_c));
+ *   var _c={"material":"å¤´å±‚ç‰›çš®/æµ·ç»µ/èšé…¯çº¤ç»´/ç¡¬æœ¨"};
+ var _d=[
+ {"sku":1045280615,"material":"æ„å¤§åˆ©å¤´å±‚ç‰›çš®/æµ·ç»µ/èšé…¯çº¤ç»´/ç¡¬æœ¨","color":"é©¼é»„è‰²","specification":"é•¿72.5Xå®½52Xé«˜46.5CM","salesstates":"ZX","tooltips":"æ„å¤§åˆ©å¤´å±‚ç‰›çš®-é©¼é»„è‰²"},
+ {"sku":1045280613,"material":"å¤´å±‚ç‰›çš®/æµ·ç»µ/èšé…¯çº¤ç»´/ç¡¬æœ¨","color":"æ·±è¤è‰²","specification":"é•¿72.5Xå®½52Xé«˜46.5CM","salesstates":"ZS","tooltips":"å¤´å±‚ç‰›çš®-æ·±è¤è‰²"},
+ {"sku":1045280612,"material":"æ„å¤§åˆ©å¤´å±‚ç‰›çš®/æµ·ç»µ/èšé…¯çº¤ç»´/ç¡¬æœ¨","color":"æµ“å’–å•¡è‰²","specification":"é•¿72.5Xå®½52Xé«˜46.5CM","salesstates":"ZS","tooltips":"æ„å¤§åˆ©å¤´å±‚ç‰›çš®-æµ“å’–å•¡è‰²"},
+ {"sku":1045280611,"material":"æ„å¤§åˆ©å¤´å±‚ç‰›çš®/æµ·ç»µ/èšé…¯çº¤ç»´/ç¡¬æœ¨","color":"æ·±æ —è‰²","specification":"é•¿72.5Xå®½52Xé«˜46.5CM","salesstates":"Z1","tooltips":"æ„å¤§åˆ©å¤´å±‚ç‰›çš®-æ·±æ —è‰²"}
+ ];
+ console.log(Check(_d[0],_c));
+ console.log(Check(_d[1],_c));
+ console.log(Check(_d[2],_c));
+ console.log(Check(_d[3],_c));
  */
-function getDataByFilter(/*´ıÊ¶±ğÊı¾İ*/data,/*Ê¶±ğÌõ¼ş*/ condition) {
-    //×îÖÕÅĞ¶Ï½á¹û
+function getDataByFilter(/*å¾…è¯†åˆ«æ•°æ®*/data,/*è¯†åˆ«æ¡ä»¶*/ condition) {
+    //æœ€ç»ˆåˆ¤æ–­ç»“æœ
     var _result = false;
-    //ÓÃÓÚ¶¨ÒåÊÇ·ñÓĞÌõ¼ş£¬ÎŞÌõ¼şÖ±½ÓÂÔ¹ı
+    //ç”¨äºå®šä¹‰æ˜¯å¦æœ‰æ¡ä»¶ï¼Œæ— æ¡ä»¶ç›´æ¥ç•¥è¿‡
     var _start = true;
     for (var key in condition) {
         _start = false;
@@ -30,7 +30,7 @@ function getDataByFilter(/*´ıÊ¶±ğÊı¾İ*/data,/*Ê¶±ğÌõ¼ş*/ condition) {
         var _type = condition[key].constructor;
         switch (_type) {
             case Array: {
-                //Êı×é²ßÂÔ£¬Ö»Òª·ûºÏÒ»¸ö½á¹û¾ÍÊÇTRUE
+                //æ•°ç»„ç­–ç•¥ï¼Œåªè¦ç¬¦åˆä¸€ä¸ªç»“æœå°±æ˜¯TRUE
                 for (var i = 0, item; item = condition[key][i++];) {
                     if (_v == item) {
                         _result = true;

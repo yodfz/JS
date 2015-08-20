@@ -1,6 +1,6 @@
 /**
- * Created by 逸风 on 2015/8/20.
- * Description:字符串格式化
+ * Created by 閫搁 on 2015/8/20.
+ * Description:瀛楃涓叉牸寮忓寲浠ｇ爜
  * Demo:
  * stringformat("{0} {1}","hello","world");
    hello world
