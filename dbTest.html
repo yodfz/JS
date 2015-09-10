@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="db.js"></script>
+</head>
+<body>
+<script>
+    var nowDb=dbHelp("myDB");
+    nowDb.init(function(db){
+            var _$db=db;
+            console.log(db.objectStoreNames);
+            if(!db.objectStoreNames.contains("message")){
+                var _message=_$db.createObjectStore("message",{keyPath:"id", autoIncrement: true});
+                var _tag=_$db.createObjectStore("tag",{keyPath:"id", autoIncrement: true});
+                _message.createIndex("content","content",{unique: false});
+                _message.createIndex("date","date",{unique: false});
+                _message.createIndex("isOk","isOk",{unique: false});
+            }
+        });
+</script>
+</body>
+</html>
