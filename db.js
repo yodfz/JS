@@ -46,10 +46,11 @@
 
     $dbHelp.prototype={
         /**
-         * 初始化表结构
+         * 初始化数据库
          * @param callback
          */
         init:function(callback){
+            this.delete();
             var _tempDb=$db.open(this.dbName,this.dbVer);
             _tempDb.onerror = function(event){
                 throw "打开数据库失败!";
@@ -83,18 +84,19 @@
             };
         },
         delete:function(){
-            var _type=typeof arguments[0];
-            if(arguments.length==0||_type==="function"){
+            var _type=typeof arguments[0] === "function";
+            if(arguments.length==0||_type){
                 //删除数据库
                 var _del=$db.deleteDatabase(this.dbName);
+                var _dbName=this.dbName;
                 _del.onsuccess=function(){
-                    console.log("删除数据库[" + this.dbName + "]成功");
+                    console.log("删除数据库[" + _dbName + "]成功");
                     _type&&argumenst[0]();
                 }
 
                 _del.onerror=function(event){
                     console.log(event);
-                    console.log("删除数据库[" + this.dbName + "]失败");
+                    console.log("删除数据库[" + _dbName + "]失败");
                 }
             }
         }
