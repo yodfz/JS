@@ -50,43 +50,52 @@
          * @param callback
          */
         init:function(_){
-            this.delete();
+            var isOpen=arguments.length==0;
+            !isOpen&&this.delete();
             var _tempDb=$db.open(this.dbName,this.dbVer);
             _tempDb.onerror = function(event){
                 throw "打开数据库失败!";
             };
 
-            //初始化各种表结构
-            _tempDb.onupgradeneeded = function(event) {
-                var _$db=event.target.result;
-                switch(_.constructor){
-                    case Function:{
-                        _(_$db);
-                    }break;
-                    case Object:{
-                        for(var i= 0,item;item=_[i++];){
+            if(!isOpen){
+                //初始化各种表结构
+                _tempDb.onupgradeneeded = function(event) {
+                    var _$db=event.target.result;
+                    switch(_.constructor){
+                        case Function:{
+                            _(_$db);
+                        }break;
+                        case Object:{
+                            for(var i= 0,item;item=_[i++];){
 
-                            var _key=item.key.other;
-                            _key.keyPath=item.key.name;
-                            var _obj=_$db.createObjectStore(item.name,_key);
+                                var _key=item.key.other;
+                                _key.keyPath=item.key.name;
+                                var _obj=_$db.createObjectStore(item.name,_key);
 
-                            for(var k= 0,field;field=item.field[k++];){
-                                _obj.createIndex(field.name,field.name,field.other);
+                                for(var k= 0,field;field=item.field[k++];){
+                                    _obj.createIndex(field.name,field.name,field.other);
+                                }
                             }
-                        }
-                    }break;
-                    default:{
-                        throw "不支持的初始化!";
-                    }break;
-                }
+                        }break;
+                        default:{
+                            throw "不支持的初始化!";
+                        }break;
+                    }
+                };
+            }
 
-            };
 
             //先将对象地址传递出去，等异步打开完成之后在对象上再挂接一个数据库对象
             _tempDb.onsuccess = function(event){
                 this.dbResult=event.target.result;
                 this.isOpen=true;
             };
+        },
+        /**
+         * 打开数据库
+         */
+        open:function(){
+            this.init();
         },
         _get:function(name,mode){
             return this.dbResult.transaction([name],(mode == 1 ? 'readwrite' : 'readonly')).objectStore(name);
