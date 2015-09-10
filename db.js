@@ -46,6 +46,19 @@
 
     $dbHelp.prototype={
         /**
+         * 私有方法 获取表
+         * @param name 表名
+         * @param mode 模式 1 读写 0只读
+         * @returns 返回一个表对象
+         * @private
+         */
+        _get:function(name,mode){
+            return this.dbResult.transaction([name],(mode == 1 ? 'readwrite' : 'readonly')).objectStore(name);
+        },
+
+
+
+        /**
          * 初始化数据库
          * @param callback
          */
@@ -97,9 +110,7 @@
         open:function(){
             this.init();
         },
-        _get:function(name,mode){
-            return this.dbResult.transaction([name],(mode == 1 ? 'readwrite' : 'readonly')).objectStore(name);
-        },
+
         /**
          * 获取一个数据
          * @param table 表名
@@ -112,6 +123,30 @@
                 //TODO 根据ID获取对象
                 callback(event.target.result);
             };
+        },
+        /**
+         * 获取表所有数据
+         * @param table     表名
+         * @param callback  回调
+         */
+        getAll:function(table,callback){
+
+        },
+        /**
+         * 获取表数据 分页模式
+         * @param table         表名
+         * @param pageIndex     当前页码 1开始
+         * @param pageSize      每页大小
+         * @param callback      回调
+         */
+        getPage:function(table,pageIndex,pageSize,callback){
+
+        },
+        set:function(table,obj,callback){
+
+        },
+        setRange:function(table,objs,callback){
+
         },
         delete:function(){
             var _type=typeof arguments[0] === "function";
@@ -128,6 +163,11 @@
                     console.log(event);
                     console.log("删除数据库[" + _dbName + "]失败");
                 }
+            }
+            else{
+                //查看是删一条，还是根据条件删
+                //如果为table,string 删一条
+                //如果为table,object 根据条件删除
             }
         }
     };
