@@ -8,6 +8,19 @@
 <body>
 <script>
     var nowDb=dbHelp("myDB");
+
+    setTimeout(function(){
+        nowDb.init(function(db){
+            var _$db=db;
+            if(!db.objectStoreNames.contains("message")){
+                var _message=_$db.createObjectStore("message",{keyPath:"id", autoIncrement: true});
+                var _tag=_$db.createObjectStore("tag",{keyPath:"id", autoIncrement: true});
+                _message.createIndex("content","content",{unique: false});
+                _message.createIndex("date","date",{unique: false});
+                _message.createIndex("isOk","isOk",{unique: false});
+            }
+        });
+    },100);
 </script>
 </body>
 </html>
