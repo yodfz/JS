@@ -21,19 +21,21 @@
      * @param name  数据库名
      */
     dbHelp = function(name){
-        var _db=$db.open(name);
-        var tempDB;
-
-        _db.onerror=function(event){
+        var _db=Object.create(dbHelp.prototype);//$db.open(name);
+        var tempDb=$db.open(name);
+        _db.dbName=name;
+        _db.isOpen=false;
+        tempDb.onerror=function(event){
             throw "打开数据库失败!";
         };
 
         //异步打开的，让我好困惑。。。怎么办？？？
-        _db.onsuccess=function(){
-            tempDB=_db.result;
-            tempDB.prototype=Object.create(dbHelp.prototype);
+        //先将对象地址传递出去，等异步打开完成之后在对象上再挂接一个数据库对象
+        tempDb.onsuccess=function(event){
+            _db.dbResult=event.target.result;
+            _db.isOpen=true;
         };
-        return tempDB;
+        return _db;
     };
 
 
@@ -44,9 +46,7 @@
          * @param where 获取条件
          */
         get:function(table,where){
-
         },
-
         getTable:function(table){
 
         }
