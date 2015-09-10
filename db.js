@@ -49,7 +49,7 @@
          * 初始化数据库
          * @param callback
          */
-        init:function(callback){
+        init:function(_){
             this.delete();
             var _tempDb=$db.open(this.dbName,this.dbVer);
             _tempDb.onerror = function(event){
@@ -58,7 +58,28 @@
 
             //初始化各种表结构
             _tempDb.onupgradeneeded = function(event) {
-                callback(event.target.result);
+                var _$db=event.target.result;
+                switch(_.constructor){
+                    case Function:{
+                        _(_$db);
+                    }break;
+                    case Object:{
+                        for(var i= 0,item;item=_[i++];){
+
+                            var _key=item.key.other;
+                            _key.keyPath=item.key.name;
+                            var _obj=_$db.createObjectStore(item.name,_key);
+
+                            for(var k= 0,field;field=item.field[k++];){
+                                _obj.createIndex(field.name,field.name,field.other);
+                            }
+                        }
+                    }break;
+                    default:{
+                        throw "不支持的初始化!";
+                    }break;
+                }
+
             };
 
             //先将对象地址传递出去，等异步打开完成之后在对象上再挂接一个数据库对象
