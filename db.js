@@ -14,7 +14,7 @@
     var $db                 = _.indexedDB || _.mozIndexedDB || _.webkitIndexedDB || _.msIndexedDB;
     var $dbIDBTransaction   = _.IDBTransaction || _.webkitIDBTransaction || _.msIDBTransaction;
     var $dbIDBKeyRange      = _.IDBKeyRange || _.webkitIDBKeyRange || _.msIDBKeyRange;
-    var dbHelp              = {};
+    var $dbHelp              = {};
 
     if (!$db) {
         throw "浏览器不支持indexedDB!";
@@ -27,7 +27,7 @@
      *              opt.name:数据库名
      *              opt.ver: 版本号
      */
-    dbHelp = function(opt){
+    $dbHelp = function(opt){
         if(typeof opt === "string"){
             var _name=opt;
             opt={};
@@ -35,39 +35,36 @@
             opt.ver=1;
         }
 
-        var _db=Object.create(dbHelp.prototype);//$db.open(name);
-        var tempDb=$db.open(opt.name,opt.ver);
+        var _db=Object.create($dbHelp.prototype);//$db.open(name);
         _db.dbName=opt.name;
+        _db.dbVer=opt.ver;
         _db.isOpen=false;
-        tempDb.onerror=function(event){
-            throw "打开数据库失败!";
-        };
 
-        //异步打开的，让我好困惑。。。怎么办？？？
-        //先将对象地址传递出去，等异步打开完成之后在对象上再挂接一个数据库对象
-        tempDb.onsuccess=function(event){
-            _db.dbResult=event.target.result;
-            _db.isOpen=true;
-        };
         return _db;
     };
 
 
-    dbHelp.prototype={
+    $dbHelp.prototype={
         /**
          * 初始化表结构
          * @param callback
          */
         init:function(callback){
-            if(this.isOpen){
-                //初始化各种表结构
-                this.dbResult.onupgradeneeded=function(event) {
-                    callback(event.target.result);
-                };
-            }
-            else{
-                throw "数据库未打开!";
-            }
+            var _tempDb=$db.open(this.dbName,this.dbVer);
+            _tempDb.onerror = function(event){
+                throw "打开数据库失败!";
+            };
+
+            //初始化各种表结构
+            _tempDb.onupgradeneeded = function(event) {
+                callback(event.target.result);
+            };
+
+            //先将对象地址传递出去，等异步打开完成之后在对象上再挂接一个数据库对象
+            _tempDb.onsuccess = function(event){
+                this.dbResult=event.target.result;
+                this.isOpen=true;
+            };
         },
         _get:function(name,mode){
             return this.dbResult.transaction([name],(mode == 1 ? 'readwrite' : 'readonly')).objectStore(name);
@@ -75,20 +72,24 @@
         /**
          * 获取一个数据
          * @param table 表名
-         * @param where 获取条件
+         * @param id 获取条件 ID
+         * @param callback 回调函数
          */
         get:function(table,id,callback){
-            var _table=this._get(table);
-            _table.onsucess = function(event){
+            var _table=this._get(table,0).get(id);
+            _table.onsuccess = function(event){
+                //TODO 根据ID获取对象
                 callback(event.target.result);
             };
         },
         delete:function(){
-            if(arguments.length==0){
+            var _type=typeof arguments[0];
+            if(arguments.length==0||_type==="function"){
                 //删除数据库
                 var _del=$db.deleteDatabase(this.dbName);
                 _del.onsuccess=function(){
                     console.log("删除数据库[" + this.dbName + "]成功");
+                    _type&&argumenst[0]();
                 }
 
                 _del.onerror=function(event){
@@ -99,5 +100,5 @@
         }
     };
 
-    _.dbHelp=dbHelp;
+    _.dbHelp=$dbHelp;
 }(window));
