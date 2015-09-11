@@ -56,5 +56,5 @@ function checkDataByFilter(/*待识别数据*/data,/*识别条件*/ condition) {
 }
 
 function getDataByFilter(/*待识别数据*/data,/*识别条件*/ condition){
-
+    //这里做个循环呗 循环判断数据是否符合条件
 }

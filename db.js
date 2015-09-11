@@ -114,7 +114,6 @@
                                     for(var k= 0,field;field=item.field[k++];){
                                         _obj.createIndex(field.name,field.name,field.other);
                                     }
-
                                 }
                             }break;
                             default:{
@@ -157,7 +156,17 @@
              * @param callback  回调
              */
             getAll:function(table,callback){
-
+                var _table=this.get(table,0);
+                var _data=[];
+                _table.openCursor().onsuccess=function(event){
+                    var _result=event.target.result;
+                    if(_result){
+                        _data.push(_result.value);
+                    }
+                    else{
+                        callback(_data);
+                    }
+                };
             },
             /**
              * 获取表数据 分页模式
@@ -167,9 +176,32 @@
              * @param callback      回调
              */
             getPage:function(table,pageIndex,pageSize,callback){
-
+                var skipCount=(pageIndex-1)*pageSize;
+                var nowCount=0;
+                var getCount=0;
+                skipCount=skipCount<0?0:skipCount;
+                var _table=this.get(table,0);
+                var _data=[];
+                _table.openCursor().onsuccess=function(event){
+                    var _result=event.target.result;
+                    if(_result){
+                        if(nowCount++>=skipCount){
+                            if(getCount++>=pageSize) return;
+                            _data.push(_result.value);
+                        }
+                    }
+                    else{
+                        callback(_data);
+                    }
+                };
             },
-            set:function(table,obj,callback){
+            /**
+             * 添加数据
+             * @param table     表
+             * @param obj       数据对象
+             * @param callback  回调
+             */
+            add:function(table,obj,callback){
                 var _table=this._get(table,1).add(obj);
                 _table.onerror=function(event){
                     console.log(event);
@@ -181,11 +213,11 @@
             },
             /**
              * 异步添加一堆数据
-             * @param table
-             * @param objs
-             * @param callback
+             * @param table     表
+             * @param objs      数据对象集合
+             * @param callback  回调
              */
-            setRange:function(table,objs,callback){
+            addRange:function(table,objs,callback){
                 var _table=this._get(table,1);
                 for(var i= 0,item;item=objs[i++];){
                     _table.add(item);
@@ -194,6 +226,9 @@
                     }
                 }
                 callback();
+            },
+            update:function(table,obj,callback){
+
             },
             delete:function(){
                 var _type=typeof arguments[0] === "function";
