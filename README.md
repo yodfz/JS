@@ -5,7 +5,7 @@
 ##db.js
 >用于操作浏览器数据库 indexedDB
 
-###如何创建数据库
+* 如何创建数据库
 ```js
  var nowDb=dbHelp("myDB");
  //方法一 通过JSON建立
@@ -42,4 +42,13 @@
              _message.createIndex("isOk","isOk",{unique: false});
          }
      });
+```
+* 获取一个数据
+```js
+    var nowDb=dbHelp("myDB");
+    nowDb.open();
+    //这里需要等待一下。。可以提前将 上面两句放置在页面载入时
+    nowDb.get('表名',1,function(_){
+        console.log(_);
+    });
 ```
