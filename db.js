@@ -228,7 +228,10 @@
                 callback();
             },
             update:function(table,obj,callback){
-
+                var _table = this.get(table).put(obj);
+                _table.onsuccess = function(event){
+                    callback();
+                };
             },
             delete:function(){
                 var _type=typeof arguments[0] === "function";
@@ -249,7 +252,11 @@
                 else{
                     //查看是删一条，还是根据条件删
                     //如果为table,string 删一条
-                    //如果为table,object 根据条件删除
+                    var _table = this.get(arguments[0],1).delete(arguments[1]);
+                    _table.onsuccess = function(event) {
+                        // 删除数据成功！
+                        arguments[2]();
+                    };
                 }
             }
         };
