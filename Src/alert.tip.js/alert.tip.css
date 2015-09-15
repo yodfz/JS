@@ -1,0 +1,31 @@
+@-webkit-keyframes jsalertHidden {
+    0% {opacity:1;-webkit-transform:translateY(0%);
+        transform:translateY(0%);}
+    100% { opacity:0; display:none;	-webkit-transform:translateY(-300%);
+        transform:translateY(-300%);}
+}
+@keyframes jsalertHidden {
+    0% {opacity:1;-webkit-transform:translateY(0%);
+        transform:translateY(0%);}
+    100% { opacity:0; display:none;	-webkit-transform:translateY(-600%);
+        transform:translateY(-600%);}
+}
+.js-alert{
+    position:fixed;
+    top:50%;
+    padding:10px 10px;
+    margin:-50px auto;
+    width: 50%;
+    left:25%;
+    background-color: rgba(0,0,0,.8);
+    color:#fff;
+    text-align: center;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    -webkit-transform:translateZ(0px);
+    transform:translateZ(0px);
+    -webkit-transition-duration:2s;
+    transition-duration:2s;
+    -webkit-animation: jsalertHidden 2s ease-in-out forwards;
+    animation: jsalertHidden 2s ease-in-out forwards;
+};
