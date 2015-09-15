@@ -1,10 +1,10 @@
-@-webkit-keyframes jsalertHidden {
+@-webkit-keyframes js-alertHidden {
     0% {opacity:1;-webkit-transform:translateY(0%);
         transform:translateY(0%);}
     100% { opacity:0; display:none;	-webkit-transform:translateY(-300%);
         transform:translateY(-300%);}
 }
-@keyframes jsalertHidden {
+@keyframes js-alertHidden {
     0% {opacity:1;-webkit-transform:translateY(0%);
         transform:translateY(0%);}
     100% { opacity:0; display:none;	-webkit-transform:translateY(-600%);
@@ -26,6 +26,6 @@
     transform:translateZ(0px);
     -webkit-transition-duration:2s;
     transition-duration:2s;
-    -webkit-animation: jsalertHidden 2s ease-in-out forwards;
-    animation: jsalertHidden 2s ease-in-out forwards;
-};
+    -webkit-animation: js-alertHidden 2s ease-in-out forwards;
+    animation: js-alertHidden 2s ease-in-out forwards;
+}
