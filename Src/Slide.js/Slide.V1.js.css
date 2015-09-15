@@ -1,0 +1,28 @@
+.slidesbg{
+    background-color:#fff;
+    opacity: 1;
+    top:0;
+    left:0;
+    z-index:99;
+    position: fixed;
+}
+.slidesbg .moveImg{
+    top:0;
+    left:0;
+    position: absolute;
+    z-index:100;
+    transition-timing-function: ease;
+    -webkit-transition-timing-function: ease;
+}
+.slidesbg .moveImg section{
+    position: absolute;
+}
+.slidesbg .listImg {
+
+}
+.slidesbg .showImg {
+    position: absolute;
+    overflow:hidden;
+    z-index:105;
+    top:0;left:0;
+}
