@@ -86,7 +86,6 @@
      * @param _m
      */
     $api.apply=function(_m){
-
         if(arguments.length==1){
             //遍历$v 查看相关的
             //$api.get("#A")[0].innerHTML=_m.value;
@@ -100,10 +99,7 @@
         {
             //交叉对比所有数据
 
-
         }
-
-
     };
 
     /**
@@ -150,8 +146,7 @@
      * @param fn
      */
     $wayBind.prototype.bind=function(name,fn){
-        var _getAllName=$api.get("[" + $name + "-name]");
-        var _getAllVal=$api.get("[" + $name + "-val]");
+        var _getAllName=$api.get("[" + $name + "-name]"),_getAllVal=$api.get("[" + $name + "-val]");
         //var _model={
         //    name:"",
         //    node:null
