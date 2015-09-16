@@ -1,5 +1,7 @@
 /**
  * 双向绑定
+ * author:zhaoyifeng
+ * date:2015-9-16
  */
 ;
 (function(_,fn){
@@ -104,7 +106,9 @@
         var _set=null;
         switch(_tag){
             case "INPUT":{
-
+                _set=function(_){
+                    _m.value=_;
+                };
             }break;
             default :{
                 _set=function(_){
