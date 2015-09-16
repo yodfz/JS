@@ -78,6 +78,7 @@
             }break;
             default :{}break;
         }
+
     };
 
     /**
@@ -85,13 +86,24 @@
      * @param _m
      */
     $api.apply=function(_m){
-        //遍历$v 查看相关的
-        //$api.get("#A")[0].innerHTML=_m.value;
-        for(var i= 0,item;item=$v[i++];){
-            if(item.name==_m.name){
-                $api.setValue(item,_m.value);
+
+        if(arguments.length==1){
+            //遍历$v 查看相关的
+            //$api.get("#A")[0].innerHTML=_m.value;
+            for(var i= 0,item;item=$v[i++];){
+                if(item.name==_m.name){
+                    $api.setValue(item,_m.value);
+                }
             }
         }
+        else
+        {
+            //交叉对比所有数据
+
+
+        }
+
+
     };
 
     /**
@@ -153,15 +165,9 @@
             $api.pushValue(item);
         }
     };
-    /**
-     * 获取所有的绑定事件与绑定值DOM
-     */
-    $wayBind.prototype.getAllBind=function(){
-
-    };
 
     $wayBind.prototype.apply=function(){
-
+        $api.apply();
     };
 
     $wayBind.prototype.debug=function(){
