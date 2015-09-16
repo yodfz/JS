@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="wayBind.js"></script>
+</head>
+<body>
+<div waybind-name="form">
+    <input type="text" waybind-name="name"/>
+
+    <button waybind-click="add();">增加</button>
+</div>
+<div waybind-val="name" id="A">
+
+</div>
+
+<script>
+    var wb=window.wayBind;
+    wb.bind();
+    wb.debug();
+</script>
+</body>
+</html>
