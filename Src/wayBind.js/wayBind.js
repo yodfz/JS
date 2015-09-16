@@ -32,6 +32,10 @@
         return document.querySelectorAll(name);
     };
 
+    /**
+     * 添加监视的模型
+     * @param _
+     */
     $api.pushModel=function(_){
         var _obj={
             name:_.getAttribute($name +"-name"),
@@ -41,6 +45,11 @@
         $m.push(_obj);
         $api.addEvent(_obj,_);
     };
+
+    /**
+     * 添加监视需要显示的节点
+     * @param _
+     */
     $api.pushValue=function(_){
         var _obj={
             name:_.getAttribute($name +"-val"),
@@ -50,6 +59,11 @@
         $v.push(_obj);
     };
 
+    /**
+     * 为模型绑定事件
+     * @param _m
+     * @param _
+     */
     $api.addEvent=function(_m,_){
         var _tag= _.tagName;
 
@@ -63,6 +77,11 @@
             default :{}break;
         }
     };
+
+    /**
+     * 触发检测
+     * @param _m
+     */
     $api.apply=function(_m){
         //遍历$v 查看相关的
         //$api.get("#A")[0].innerHTML=_m.value;
@@ -72,22 +91,34 @@
             }
         }
     };
+
+    /**
+     * 如果触发了值 则修改DOM
+     * @param _m
+     * @param _v
+     */
     $api.setValue=function(_m,_v){
+        if(_m.value==_v) return;
         var _tag= _m.node.tagName;
         _m.value=_v;
         var _set=null;
         switch(_tag){
-            case "DIV":{
+            case "INPUT":{
+
+            }break;
+            default :{
                 _set=function(_){
                     _m.node.innerHTML=_;
                 };
             }break;
-            default :{}break;
         }
         _set(_v);
     };
 
 
+    /**
+     * 输出内部变量
+     */
     $api.debug=function(){
         console.log($v);
         console.log($m);
