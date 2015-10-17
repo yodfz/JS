@@ -1,6 +1,9 @@
 /**
  * JS模板引擎
  * author:zhaoyifeng
+ * 说明:
+ * 1.JS模板代码需要套在jte中
+ * 2.传递进入的对象全部挂接在 model上
  */
 ;
 (function(_,fn){
@@ -21,20 +24,25 @@
      */
     $fn.getHtml=function(_,_v){
         var $getJSBlock=[]/*JS模板代码块*/,$getJSBlockReg/*获取JS代码块的正则*/,$getJSTemplate/*临时存放模板*/;
+
         $getJSBlockReg=/<jte>([\S\s]*?)<\/jte>/ig;
         $getJSTemplate= _.replace($getJSBlockReg,function(k,v){
             var $t="<jtv>" + Math.random() + "</jtv>";
             $getJSBlock.push({k:$t,v:v});
             return $t;
         });
+
+        //考虑是否删除JTE JTV这种，直接将整个模板全部装入代码中执行.
         for(var $i= 0,$item;$item=$getJSBlock[$i++];){
             var $code=$item.v;
             var $codeline=[],$codelineFn=[];
+
             $code.replace(/(.*?)\n/ig,function(__k,__v){
                 if(__v!=undefined){
                     $codeline.push(__v);
                 }
             });
+
             ///\s+?[<]/ 匹配第一个是否为<
             var $checkSpaceReg=/\s+?[<]/ig;
             for($line in $codeline){
