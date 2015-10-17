@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jsTemplateEngine.js"></script>
+</head>
+<body>
+    <div id="jst">
+        <jte>
+            for(var i=0,item;item=model[i++];){
+            <span>{{item}}</span>
+            }
+        </jte>
+    </div>
+    <script>
+        var jst=document.querySelector("#jst");
+        jst.innerHTML=jsTemplateEngine.getHtml(jst.innerHTML,["张三","李四","王五"]);
+    </script>
+</body>
+</html>
