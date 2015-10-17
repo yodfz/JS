@@ -4,7 +4,6 @@
  * 说明:
  * 1.JS模板代码需要套在jte中
  * 2.传递进入的对象全部挂接在 model上
- * 3.依靠第一个非空格字符识别是否为HTML代码 还是 JS代码
  */
 ;
 (function(_,fn){
@@ -32,23 +31,22 @@
             $getJSBlock.push({k:$t,v:v});
             return $t;
         });
-
+        console.log($getJSBlock);
         //考虑是否删除JTE JTV这种，直接将整个模板全部装入代码中执行.
         for(var $i= 0,$item;$item=$getJSBlock[$i++];){
             var $code=$item.v;
             var $codeline=[],$codelineFn=[];
 
-            $code.replace(/(.*?)\n/ig,function(__k,__v){
+            $code.replace(/([\S\s]*?)\n/ig,function(__k,__v){
                 if(__v!=undefined){
                     $codeline.push(__v);
                 }
             });
-
             ///\s+?[<]/ 匹配第一个是否为<
-            var $checkSpaceReg=/\s+?[<]/ig;
             for($line in $codeline){
                 var $$code=$codeline[$line];
-                if($checkSpaceReg.test($codeline[$line])){
+                //这里修改为删除所有空格,然后判断第一个字符
+                if($$code.replace(/\s+/ig,"")[0]=="<"){
                     //HTML代码
                     $$code=$$code.replace(/"/ig,"\\\"");
                     $$code=$$code.replace(/\{\{/ig,"\"+");
