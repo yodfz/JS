@@ -48,9 +48,7 @@
                 //这里修改为删除所有空格,然后判断第一个字符
                 if($$code.replace(/\s+/ig,"")[0]=="<"){
                     //HTML代码
-                    $$code=$$code.replace(/"/ig,"\\\"");
-                    $$code=$$code.replace(/\{\{/ig,"\"+");
-                    $$code=$$code.replace(/\}\}/ig,"+\"");
+                    $$code=$$code.replace(/"/ig,"\\\"").replace(/\{\{/ig,"\"+(").replace(/\}\}/ig,")+\"");
                     $codelineFn.push("$$outstr.push(\"" + $$code +"\");");
                 }
                 else{
