@@ -31,7 +31,12 @@
             $getJSBlock.push({k:$t,v:v});
             return $t;
         });
-        console.log($getJSBlock);
+        //测试代码 是否取消 JTE 这个区块。
+        //if($getJSBlock.length==0){
+        //    var $t="<jtv>" + Math.random() + "</jtv>";
+        //    $getJSBlock.push({k:$t,v:_});
+        //    $getJSTemplate=$t;
+        //}
         //考虑是否删除JTE JTV这种，直接将整个模板全部装入代码中执行.
         for(var $i= 0,$item;$item=$getJSBlock[$i++];){
             var $code=$item.v;
@@ -58,7 +63,6 @@
             }
 
             var $runFn="(function(model){var $$outstr=[];" + $codelineFn.join("") + "return $$outstr.join('');}(" + JSON.stringify(_v) + "))";
-            console.log($runFn);
             $getJSTemplate=$getJSTemplate.replace($item.k,eval($runFn));
         }
 
