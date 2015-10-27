@@ -1,6 +1,5 @@
 /**
  * 文件上传jQuery插件
- * date:2015年10月27日16:56:10
  */
 ;
 (function(_,fn){
@@ -21,10 +20,8 @@
     var _clickObj=$(this);
     var $result="";
 
-    var $postForm/*提交上传的表单*/;
+    //var $postForm/*提交上传的表单*/;
     $fn=function(_){
-        console.log(_);
-        console.log(_clickObj);
         var _that=this;
         if(_!=undefined){
             _config= $.extend({},$config,_);
@@ -34,7 +31,7 @@
         var _form=document.createElement("form");
         var _iframe=document.createElement("iframe");
         var _file=document.createElement("input");
-        //_form.style.display="none";
+        _form.style.display="none";
         _form.action=_config.uploadSrc;
         _form.id=$id;
         _form.target="iframe" + $id;
@@ -47,9 +44,8 @@
         _form.appendChild(_file);
         $("body").append(_form);
         //挂接事件
+        $("#iframe" + $id).load(_that.loaded);
         $("#file" + $id).change(function(){
-            console.log("change");
-            _iframe.load=_that.loaded("#iframe" + $id);
             $("#" + $id).submit();
         });
         _clickObj.click(function(){
@@ -60,7 +56,6 @@
 
     //进行上传操作
     $fn.prototype.upload=function(){
-        console.log("#file" + $id);
         $("#file" + $id).trigger("click");
     };
 
@@ -68,12 +63,12 @@
      * 上传完成之后的回调
      * @param _d
      */
-    $fn.prototype.loaded=function(_d){
-        var _body=$(_d).contents().find("body");
+    $fn.prototype.loaded=function(){
+        var _body=$(this).contents().find("body");
         var _pre=_body.find("pre");
         var _result=_pre.html()==""?_body.html():_pre.html();
         $result=_result;
-        _config.success(JSON.parse(_d));
+        _config.success(JSON.parse($result));
         return _result;
     };
 
