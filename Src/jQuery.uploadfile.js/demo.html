@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="/webapp/_resources/js/jquery-easyui-1.4.3/jquery.min.js"></script>
+    <script src="/webapp/Web.src/src/js/jQuery.uploadfile.js"></script>
+</head>
+<body>
+<input type="file" name="" id="a"/>
+<a href="javascript:;" id="btn">触发我</a>
+<script>
+    //    var a= $.uploadfile({
+    //        uploadSrc:"/webapp/Web.src/Mock/productFavoriteSave.json"
+    //    });
+    $("#btn").uploadfile({
+        uploadSrc:"/webapp/Web.src/Mock/productFavoriteSave.json"
+    });
+
+</script>
+</body>
+</html>
