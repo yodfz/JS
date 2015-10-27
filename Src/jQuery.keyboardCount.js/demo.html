@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="keyboardCount.js"></script>
+    <script>
+        $(function(){
+            $.keyboardCount.bind();
+        });
+    </script>
+</head>
+<body>
+<dl class="line">
+    <dt>标题:</dt>
+    <dd><input type="text" data-kbc-max="60"/></dd>
+</dl>
+</body>
+</html>
