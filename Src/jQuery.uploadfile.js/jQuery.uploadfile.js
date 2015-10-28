@@ -35,6 +35,14 @@
         if(_!=undefined){
             _config= $.extend({},$config,_);
         }
+        //判断是否已经绑定过一个上传了
+        if(_clickObj.data("bind-jqueryUploadfile")){
+            return;
+        }
+        else{
+            _clickObj.data("bind-jqueryUploadfile",true);
+        }
+
         //创建一个唯一ID
         $id="uploadfile" + (new Date()).valueOf() + Math.random().toFixed(3).substr(2);
         var _form=document.createElement("form");
@@ -71,7 +79,8 @@
             var _path=$(this).val().split('.');
             _path=_path[_path.length-1];
             var _checksuffix=false;
-            for(var _i= 0,_item;_item=_config.suffix[_i++];){
+            var _suffix=_config.suffix.split(',');
+            for(var _i= 0,_item;_item=_suffix[_i++];){
                 if(_item.toLowerCase()==_path.toLowerCase()){
                     _checksuffix=true;
                 }
@@ -82,11 +91,10 @@
                 alert("无法上传此文件,仅限以下后缀文件:" + _config.suffix);
             }
         });
-        _clickObj.click(function(){
-            _that.upload();
-        });
+        _clickObj.click(_that.upload);
         return this;
     };
+
 
     /**
      * 进行上传操作
