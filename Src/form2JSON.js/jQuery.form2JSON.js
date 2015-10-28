@@ -21,22 +21,29 @@
             var _n=_e.attr("name");
             var _v=_e.val();
             if(_n.trim()=="") continue;
-            if(_data[_n]==undefined){
-                _data[_n]=_v;
+            var _d=_data;
+            var _namespace=_n.split('.');
+            _n=_namespace[_namespace.length-1];
+            for(var _k= 0;_k<_namespace.length-1;_k++){
+                if(_d[_namespace[_k]]==undefined) _d[_namespace[_k]]={};
+                _d=_d[_namespace[_k]];
+            }
+            if(_d[_n]==undefined){
+                _d[_n]=_v;
             }
             else{
-                if(_data[_n] instanceof Array){
-                    _data[_n].push(_v);
+                if(_d[_n] instanceof Array){
+                    _d[_n].push(_v);
                 }
                 else{
-                    var _temp=_data[_n];
-                    _data[_n]=[];
-                    _data[_n].push(_temp);
-                    _data[_n].push(_v);
+                    var _temp=_d[_n];
+                    _d[_n]=[];
+                    _d[_n].push(_temp);
+                    _d[_n].push(_v);
                 }
             }
         }
-        return _data;
+        return _d;
     };
     return $fn();
 }));
