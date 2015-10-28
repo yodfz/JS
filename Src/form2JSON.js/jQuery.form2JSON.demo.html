@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh_cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="/webapp/_resources/js/jquery-easyui-1.4.3/jquery.min.js"></script>
+    <script src="jQuery.form2JSON.js"></script>
+</head>
+<body>
+    <form id="form">
+        <input  name="aa" value="1"/>
+        <input  name="aa" value="2"/>
+        <input  name="aa2" value="3"/>
+        <input  name="aa3" value="4"/>
+        <input  name="aa4" value="5"/>
+        <input  name="aa5" value="6"/>
+    </form>
+    <script>
+        alert(JSON.stringify($("#form").form2JSON()));
+    </script>
+</body>
+</html>
