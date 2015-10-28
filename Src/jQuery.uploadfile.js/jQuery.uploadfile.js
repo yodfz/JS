@@ -1,5 +1,6 @@
 /**
  * 文件上传jQuery插件
+ * author:zyf(苍龙)
  */
 ;
 (function(_,fn){
@@ -19,7 +20,12 @@
         //回调函数
         success:null,
         //后缀限制
-        suffix:"gif,png,jpeg,jpg"
+        suffix:"gif,png,jpeg,jpg",
+        //指定上传file NAME
+        fileName:"file",
+        //上传时需要附带的参数
+        //{name:"",value:""}
+        data:[]
     },_config={},$id;
     var _clickObj=$(this);
     var $result="";
@@ -36,14 +42,28 @@
         var _file=document.createElement("input");
         _form.style.display="none";
         _form.action=_config.uploadSrc;
+        _form.method="POST";
+        _form.enctype="multipart/form-data";
         _form.id=$id;
         _form.target="iframe" + $id;
         _iframe.id="iframe" + $id;
         _iframe.name="iframe" + $id;
         _file.type="file";
         _file.id="file" + $id;
+        _file.name=_config.fileName;
         _form.appendChild(_iframe);
         _form.appendChild(_file);
+        //检测是否需要携带其他参数
+        if(_config.data.length>0){
+            for(var _i= 0,_item;_item=_config.data[_i++];){
+                var _hide=document.createElement("input");
+                _hide.type="hidden";
+                _hide.name=_item.name;
+                _hide.value=_item.value;
+                _form.appendChild(_hide);
+            }
+        }
+
         $("body").append(_form);
         //挂接事件
         $("#iframe" + $id).load(_that.loaded);
