@@ -14,7 +14,6 @@
     var $fn;
     var $e=$(this);
     $fn=function(){
-        console.log("a");
         var _name=$e.find("[name]");
         var _data={};
         for(var _i= 0,_item;_item=_name[_i++];){
