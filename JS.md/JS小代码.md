@@ -6,3 +6,8 @@
 var a=[0,1];
 for(var i=2;i<10;a[i]=a[i-1]+a[i-2],i++){}
 ```
+
+##父框架调用子框架执行代码
+```js
+document.querySelector("#iFrameiPhone").contentWindow.iphone
+```
