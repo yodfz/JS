@@ -16,7 +16,10 @@
     }
 }(this,function(){
     var $fn={};
-
+    //允许直接调用
+    $fn=function(_,_v){
+        return $fn.getHtml(_,_v);
+    };
     /**
      * 根据给予的字符串或者对象生成最终代码
      * @param _     模板字符串
