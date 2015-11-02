@@ -3,7 +3,7 @@
  * author:zhaoyifeng
  * date:2015-4-24
  * demo:
- *       var touchobj=new touchEvents(); 默认为body可以自由传递进支持addEventListener的对象
+ *       var touchobj=new touch(); 默认为body可以自由传递进支持addEventListener的对象
  *       touchobj.start() 触摸开始 或者 鼠标按下
  *               .move()  移动
  *               .end     触摸离开或者鼠标弹起
