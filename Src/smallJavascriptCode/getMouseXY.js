@@ -6,7 +6,7 @@
 function getXY(e) {
     //用于扩展JQ的触摸事件
     var $x, $y;
-    if (e.originalEvent.changedTouches) {
+    if (e.originalEvent&& e.originalEvent.changedTouches) {
         $x = e.originalEvent.changedTouches[0].pageX;
         $y = e.originalEvent.changedTouches[0].pageY;
     } else if (e.changedTouches) {
