@@ -43,25 +43,25 @@
             $obj=$b;
         }
         $obj.addEventListener($eventStart,function(e){
-            touchEvents.start(e);
+            $touch.start(e);
         });
 
         $obj.addEventListener($eventEnd,function(e){
-            touchEvents.end(e);
+            $touch.end(e);
         });
 
         $obj.addEventListener($eventMove,function(e){
-            touchEvents.move(e);
+            $touch.move(e);
         });
         window.addEventListener($eventResize,function(e){
-            touchEvents.resize(e);
+            $touch.resize(e);
         });
 
         $obj.addEventListener($eventcancel,function(e){
 
-            touchEvents.cancel(e);
+            $touch.cancel(e);
         });
-        return touchEvents;
+        return $touch;
     };
 
     $touch.start=function(e){
@@ -80,3 +80,4 @@
     };
     $that.touch=$touch;
 }).call(this,document);
+
