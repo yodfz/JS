@@ -13,6 +13,12 @@
  *          e.preventDefault();
  *          指定触发事件
  *      }
+ * 接口:
+ * start    触摸开始
+ * end      触摸结束
+ * move     按住移动
+ * cancel   取消触摸
+ * resize   窗口改变大小
  * */
 (function()
 {
