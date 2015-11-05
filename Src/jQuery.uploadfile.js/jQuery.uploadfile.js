@@ -109,7 +109,7 @@
     $fn.prototype.loaded=function(){
         var _body=$(this).contents().find("body");
         var _pre=_body.find("pre");
-        $result=_pre.html()==""?_body.html():_pre.html();
+        $result=(_pre.html()==""||_pre.html()==undefined)?_body.html():_pre.html();
         _config.success(JSON.parse($result));
         return $result;
     };
