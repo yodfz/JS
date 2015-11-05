@@ -100,6 +100,7 @@
      * 进行上传操作
      */
     $fn.prototype.upload=function(){
+        $("#iframe" + $id).attr("src","");
         $("#file" + $id).trigger("click");
     };
 
@@ -107,9 +108,11 @@
      * 上传完成之后的回调
      */
     $fn.prototype.loaded=function(){
-        var _body=$(this).contents().find("body");
-        var _pre=_body.find("pre");
-        $result=(_pre.html()==""||_pre.html()==undefined)?_body.html():_pre.html();
+
+        var _body=$($(this).contents().find("body")[0]);
+//        console.log(_body.html(),_body.text(),_body.innerHTML);
+//        var _pre=$(_body.find("pre")[0]);
+        $result=_body.html();//(_pre.html()==""||_pre.html()=)?_body.text():_pre.text();
         _config.success(JSON.parse($result));
         return $result;
     };
