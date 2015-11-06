@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh_cn">
+<head>
+    <meta charset="UTF-8">
+    <title>下拉测试</title>
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="touch.js"></script>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        .topbg{
+            position:absolute;
+            top:0px;
+            z-index:1;
+        }
+        body{
+            overflow-x:hidden;
+        }
+
+
+        .topbg img{
+            width:100%;
+        }
+        .topcontent{
+            position: relative;
+            z-index:2;
+            background-color: #09e;
+            opacity: 0.7;
+            width: 100%;
+            height:800px;
+        }
+    </style>
+
+    <script>
+        $(function(){
+            var $touch=new touch();
+            var $isLock;
+            var $bgBounding={},$contengBounding={},$mouseXY={};
+            var $bg=$($(".topbg img")[0]),$content=$(".topcontent");
+            var $tY;
+            //初始化时记录位置
+            $bgBounding.w=$bg.width();
+            $bgBounding.h=$bg.height();
+            $contengBounding.w=$content.width();
+            $contengBounding.h=$content.height();
+            $tY=$bgBounding.h/2;
+            //初始化CSS属性
+            $bg.css("transform","translateZ(0)");
+            $content.css("transform","translateZ(0)");
+            $content.css("transform","translateY(" + $tY + "px)");
+
+            $touch.start=function(e){
+                //触摸或者按下事件
+                $isLock=true;
+                $mouseXY=getXY(e);
+                $content.css("transition-duration","");
+                $bg.css("transition-duration","");
+
+            };
+            $touch.end=function(e){
+                //触摸离开或者弹起
+                if($isLock){
+                    $isLock=false;
+                    $bg.css("transition-duration",".5s");
+                    $content.css("transition-duration",".5s");
+                    $content.css("transform","translateY(" + $tY + "px)");
+                    $bg.css("transform","scale(1)");
+
+
+                }
+
+            };
+            $touch.move=function(e){
+                //拖拽或者鼠标移动
+                if($isLock&&window.scrollY==0){
+                    var $mouseNow=getXY(e);
+                    if($mouseNow.y>$mouseXY.y){
+                        e.preventDefault();
+                        var $y=$mouseNow.y-$mouseXY.y;
+                        var $nowy=$tY+$y;
+                        $content.css("transform","translateY(" + $nowy + "px)");
+                        //判断是否要放大背景图
+                        if($nowy>=$bgBounding.h){
+                            var $bgh=$nowy-$bgBounding.h;
+                            var $zoomNum=$bgh/$bgBounding.h;
+                            //宽高放大
+//                            $bg.height((1+$zoomNum)*$bgBounding.h);
+//                            $bg.width((1+$zoomNum)*$bgBounding.w);
+                            //scale放大
+                            $bg.css("transform","scale("+(1+$zoomNum*2)+")");
+                        }
+                    }
+
+                }
+            };
+            $touch.resize=function(e){
+                //窗口变换
+            };
+            $touch.cancel=function(e){
+                //触摸取消
+            };
+
+
+
+            /**
+             * 获取当前鼠标XY坐标
+             * @param e
+             * @returns {{x: *, y: *}}
+             */
+            function getXY(e) {
+                //用于扩展JQ的触摸事件
+                var $x, $y;
+                if (e.originalEvent&& e.originalEvent.changedTouches) {
+                    $x = e.originalEvent.changedTouches[0].pageX;
+                    $y = e.originalEvent.changedTouches[0].pageY;
+                } else if (e.changedTouches) {
+                    $x = e.changedTouches[0].pageX;
+                    $y = e.changedTouches[0].pageY;
+                }
+                else {
+                    $x = e.pageX;
+                    $y = e.pageY;
+                }
+                return { x: $x, y: $y };
+            }
+        });
+    </script>
+</head>
+<body>
+<section class="topbg">
+    <img src="bg.jpg" alt=""/>
+</section>
+<section class="topcontent"></section>
+</body>
+</html>
