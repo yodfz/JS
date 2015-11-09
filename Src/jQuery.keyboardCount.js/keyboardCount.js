@@ -20,10 +20,17 @@
      */
     $fn.bind=function(){
         $watchList=$("[data-kbc-max]");
-        $watchList.after(function(index){
-            $(this).data("kbc-index",index);
-            return "<span class='keyboardCountSpan' data-kbc-index='" + index + "'>0/" + $(this).data("kbc-max") + "</span>"
-        });
+        for(var i= 0,item;item=$watchList[i++];){
+            var item=$(item);
+            var $index=i-1;
+            item.data("kbc-index",$index);
+            if($("[data-kbc-index='" + $index+ "']").length==1){
+                $($("[data-kbc-index='" + $index+ "']")[0]).html(item.val().length + "/" + item.data("kbc-max"));
+            }
+            else{
+                item.after("<span class='keyboardCountSpan' data-kbc-index='" + $index + "'>0/" + item.data("kbc-max") + "</span>");
+            }
+        }
 
         $watchList.keydown(function(e){
             var _that=$(this);
