@@ -22,7 +22,7 @@
         //后缀限制
         suffix:"gif,png,jpeg,jpg",
         //指定上传file NAME
-        fileName:"file",
+        fileName:"files",
         //上传时需要附带的参数
         //{name:"",value:""}
         data:[]
@@ -88,6 +88,7 @@
             if(_checksuffix){
                 $("#" + $id).submit();
             }else{
+                $("#icon" + $id + "").remove();
                 alert("无法上传此文件,仅限以下后缀文件:" + _config.suffix);
             }
         });
@@ -102,13 +103,15 @@
     $fn.prototype.upload=function(){
         $("#iframe" + $id).attr("src","");
         $("#file" + $id).trigger("click");
+        //添加转圈操作
+        _clickObj.after("<span id='icon" + $id + "'><i class='icon icon-spin1 icon-animation-rotate'></i></span>")
     };
 
     /**
      * 上传完成之后的回调
      */
     $fn.prototype.loaded=function(){
-
+        $("#icon" + $id + "").remove();
         var _body=$($(this).contents().find("body")[0]);
 //        console.log(_body.html(),_body.text(),_body.innerHTML);
 //        var _pre=$(_body.find("pre")[0]);
