@@ -26,7 +26,7 @@
         //上传时需要附带的参数
         //{name:"",value:""}
         data:[]
-    },_config={},$id;
+    },_config={},$id,$isPost=false;
     var _clickObj=$(this);
     var $result="";
 
@@ -56,6 +56,7 @@
         _form.target="iframe" + $id;
         _iframe.id="iframe" + $id;
         _iframe.name="iframe" + $id;
+        _iframe.src="about:blank";
         _file.type="file";
         _file.id="file" + $id;
         _file.name=_config.fileName;
@@ -76,6 +77,7 @@
         //挂接事件
         $("#iframe" + $id).load(_that.loaded);
         $("#file" + $id).change(function(){
+            $("#icon" + $id + "").remove();
             var _path=$(this).val().split('.');
             _path=_path[_path.length-1];
             var _checksuffix=false;
@@ -86,9 +88,9 @@
                 }
             }
             if(_checksuffix){
+                _clickObj.after("<span id='icon" + $id + "'><i class='icon icon-spin1 icon-animation-rotate'></i></span>");
                 $("#" + $id).submit();
             }else{
-                $("#icon" + $id + "").remove();
                 alert("无法上传此文件,仅限以下后缀文件:" + _config.suffix);
             }
         });
@@ -101,10 +103,11 @@
      * 进行上传操作
      */
     $fn.prototype.upload=function(){
-        $("#iframe" + $id).attr("src","");
+        $("#" + $id).attr("action",_config.uploadSrc +  (_config.uploadSrc.indexOf("?")>-1?"":"?") + "&timernd=" + (new Date()).valueOf());
+
+        //$("#iframe" + $id).attr("src","about:blank");
         $("#file" + $id).trigger("click");
         //添加转圈操作
-        _clickObj.after("<span id='icon" + $id + "'><i class='icon icon-spin1 icon-animation-rotate'></i></span>")
     };
 
     /**
