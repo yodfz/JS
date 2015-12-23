@@ -2,7 +2,7 @@ var fs=require("fs");
 var colors = require('colors');
 var imgSize=require("image-size");
 var arguments = process.argv.splice(2);
-var $path=arguments[0];
+var $path="/Users/admin/Desktop/项目/团购H5/images.news/";
 fs.readdir($path,function(err,files){
     files.forEach(function(x){
         var states = fs.statSync($path+'/'+x);
