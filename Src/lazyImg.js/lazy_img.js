@@ -45,7 +45,7 @@
                 }
                 $top=$imgs[i].dataset.top;
                 //优化点2 考虑记录已经加载的图片INDEX 然后删除它
-                if ($top >= (t - $winHeight * 1.5) && $top <= t && !$imgs[i].dataset.isload) {
+                if ($top >= (t - $winHeight * 1.5) && $top <= t&&!$imgs[i].dataset.isload) {
                     $imgs[i].src = $imgs[i].dataset.src;
                     $imgs[i].dataset.isload = true;
                     $imgs[i].onload = function () {
