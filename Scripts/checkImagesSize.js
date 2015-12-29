@@ -2,7 +2,7 @@ var fs=require("fs");
 var colors = require('colors');
 var imgSize=require("image-size");
 var arguments = process.argv.splice(2);
-var $path="/Users/admin/Desktop/项目/团购H5/images.news/";
+var $path="/Users/yodfz/Documents/project/threeds-server/bos/src/main/webapp/Web.src/OtherViews/Tuangou/images/";
 fs.readdir($path,function(err,files){
     files.forEach(function(x){
         var states = fs.statSync($path+'/'+x);
