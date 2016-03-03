@@ -42,6 +42,9 @@
         if(element==undefined){
             $obj=$b;
         }
+        else{
+            $obj=element;
+        }
         $obj.addEventListener($eventStart,function(e){
             $touch.start(e);
         });
@@ -80,4 +83,3 @@
     };
     $that.touch=$touch;
 }).call(this,document);
-

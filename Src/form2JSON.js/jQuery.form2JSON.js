@@ -13,10 +13,10 @@
             form2JSON: fn
         });
     }
-}(this, function () {
+}(this, function (obj) {
     var $fn;
     var $e = $(this);
-    $fn = function (obj) {
+    $fn = function () {
         if(arguments.length==0){
             var _name = $e.find("[name]");
             var _data = {};
