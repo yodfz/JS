@@ -62,7 +62,9 @@
         //初始化节点
         $opt.ele.bg = $opt.obj.querySelector(".bg");
         $opt.ele.bgNode = $opt.obj.querySelectorAll(".bgNode");
-
+        for(var i= 0,item;item=$opt.ele.bgNode[i++];){
+            item.style.width=$Width +"px";
+        }
         //初始化圆点
         $i = $opt.ele.bgNode.length;
         for (var i = 0; i < $i; i++) {
@@ -84,7 +86,7 @@
         $i+=2;
         //初始化显示
         //这个2是因为需要前后挂接一个 实现无缝切换
-        $opt.ele.bg.style.width = ($i + 2) * 15 + "rem";
+        $opt.ele.bg.style.width = ($i + 2) * $Width + "px";
         $opt.ele.bg.style.transform = "translateX(" + (-$Width) + "px)";
 
         //挂接自动
@@ -97,6 +99,7 @@
             $bgX = $opt.ele.bg.style.transform.slice(11, $opt.ele.bg.style.transform.length - 3) * 1;
         };
         $touchEvent=function(){
+            $utils.setCSS($opt.ele.bg,"transition-duration",".5s");
             if($opt.index<0) $opt.index=0;
             if($opt.index>($i-1)) $opt.index=$i-1;
             $opt.ele.bg.style.transform = "translateX(" + (-$opt.index*$Width) + "px)";
@@ -123,7 +126,6 @@
             var $direction = $nowMouse.x - $mouse.x;
             var $directionLeft = $direction < 0;
             var $directionResult = Math.abs($direction) * 5 >= $Width;
-            $utils.setCSS($opt.ele.bg,"transition-duration",".5s");
             if ($directionResult) {
                 if ($directionLeft) {
                     $opt.index++;
@@ -154,8 +156,16 @@
         };
         touchobj.cancel = function (e) {
             e.preventDefault();
-
         };
+
+        //自动轮播
+        setInterval(function(){
+            if(!$isStart){
+                $opt.index++;
+                $touchEvent();
+            }
+        },3000);
+
     };
 
     return $fn;
