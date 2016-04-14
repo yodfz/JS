@@ -67,6 +67,10 @@
         }
         //初始化圆点
         $i = $opt.ele.bgNode.length;
+        if($i<1){
+            throw "没有轮播图.";
+            return;
+        }
         for (var i = 0; i < $i; i++) {
             $html.push('<i class="dot"></i>');
         }
