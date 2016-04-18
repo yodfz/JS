@@ -20,66 +20,66 @@
  * cancel   取消触摸
  * resize   窗口改变大小
  * */
-(function()
-{
+(function () {
     "use strict";
-    var $that=this,
-        $d,
-        $b;
-    //$lock;
-    var $hasTouch="ontouchstart" in $that;
-    var $eventStart = $hasTouch?"touchstart"        :   "mousedown",
-        $eventEnd   = $hasTouch?"touchend"          :   "mouseup",
-        $eventMove  = $hasTouch?"touchmove"         :   "mousemove",
-        $eventResize= $hasTouch?"orientationchange" :   "resize",
-        $eventcancel= $hasTouch?"touchcancel"       :   "mouseup";
-    var $touch;
-    var $obj=null;
 
-    $touch=function(element){
-        $d=$that.document;
-        $b=$d.body;
-        if(element==undefined){
-            $obj=$b;
+    var $touch = function (element) {
+        var $that = this,
+            $d,
+            $b;
+        //$lock;
+        var $hasTouch = "ontouchstart" in $that;
+        var $eventStart = $hasTouch ? "touchstart" : "mousedown",
+            $eventEnd = $hasTouch ? "touchend" : "mouseup",
+            $eventMove = $hasTouch ? "touchmove" : "mousemove",
+            $eventResize = $hasTouch ? "orientationchange" : "resize",
+            $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
+        var $obj = null;
+
+        $d = $that.document;
+        $b = $d.body;
+        if (element == undefined) {
+            $obj = $b;
         }
-        else{
-            $obj=element;
+        else {
+            $obj = element;
         }
-        $obj.addEventListener($eventStart,function(e){
-            $touch.start(e);
+
+        $obj.addEventListener($eventStart, function (e) {
+            this.start(e);
         });
 
-        $obj.addEventListener($eventEnd,function(e){
-            $touch.end(e);
+        $obj.addEventListener($eventEnd, function (e) {
+            this.end(e);
         });
 
-        $obj.addEventListener($eventMove,function(e){
-            $touch.move(e);
-        });
-        window.addEventListener($eventResize,function(e){
-            $touch.resize(e);
+        $obj.addEventListener($eventMove, function (e) {
+            this.move(e);
         });
 
-        $obj.addEventListener($eventcancel,function(e){
+        window.addEventListener($eventResize, function (e) {
+            this.resize(e);
+        });
 
-            $touch.cancel(e);
+        $obj.addEventListener($eventcancel, function (e) {
+            this.cancel(e);
         });
         return $touch;
     };
 
-    $touch.start=function(e){
+    $touch.start = function (e) {
 
     };
-    $touch.end=function(e){
+    $touch.end = function (e) {
 
     };
-    $touch.move=function(e){
+    $touch.move = function (e) {
 
     };
-    $touch.resize=function(e){
+    $touch.resize = function (e) {
 
     };
-    $touch.cancel=function(e){
+    $touch.cancel = function (e) {
     };
-    $that.touch=$touch;
-}).call(this,document);
+    $that.touch = $touch;
+}).call(this, document);
