@@ -61,7 +61,7 @@
                 $codelineFn.push($$code);
             }
         }
-
+        //后期可改为new Function 提高安全性
         var $runFn = "(function(model){var $$outstr=[];" + $codelineFn.join("") + "return $$outstr.join('');}(" + JSON.stringify(_v) + "))";
         //$getJSTemplate=$getJSTemplate.replace($item.k,eval($runFn));
         $getJSTemplate = eval($runFn);

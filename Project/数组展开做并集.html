@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh_cn">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+</head>
+<body>
+<script>
+    var _data = [[{"name": "l1_0", "key": 1, "id": -1}, {"name": "l1_1", "key": 4, "id": -1}], [{
+        "name": "l2_0",
+        "key": 2,
+        "id": -1
+    }, {"name": "l2_1", "key": 3, "id": -1}], [{"name": "l3_0", "key": 5, "id": -1}]];
+    var $data = [];
+    for (var i = 0, item; item = _data[i++];) {
+        for (var j = 0, item2; item = item[j++];) {
+
+        }
+    }
+    function arrayTo(_array) {
+        var $tmp = [];
+        for (var i = 0, item; item = _array[i++];) {
+            if (item instanceof Array) {
+                $tmp = $tmp.concat(arrayTo(item));
+            }
+            else {
+                $tmp.push(item);
+            }
+        }
+        return $tmp;
+    }
+
+    var isArrayLike = function (collection) {
+        var length = collection != null && collection.length;
+        return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+    };
+    var _ = {};
+    var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+    _.isArray = function (obj) {
+        return toString.call(obj) === '[object Array]';
+    };
+    _.isArguments = function (obj) {
+        return _.has(obj, 'callee');
+    };
+    _.has = function (obj, key) {
+        return obj != null && hasOwnProperty.call(obj, key);
+    };
+
+    var flatten = function (input, shallow, strict, startIndex) {
+        var output = [], idx = 0;
+        for (var i = startIndex || 0, length = input && input.length; i < length; i++) {
+            var value = input[i];
+            if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
+                //flatten current level of array or arguments object
+                if (!shallow) value = flatten(value, shallow, strict);
+                var j = 0, len = value.length;
+                output.length += len;
+                while (j < len) {
+                    output[idx++] = value[j++];
+                }
+            } else if (!strict) {
+                output[idx++] = value;
+            }
+        }
+        return output;
+    };
+    var $d = _data.reduce(function (a, b) {
+        return flatten(a.map(function (x) {
+            return b.map(function (y) {
+                return x.concat([y]);
+            });
+        }), true);
+    }, [[]]);
+    console.log($d);
+    $d = _data.reduce(function (_x, _y) {
+//            var $data=[];
+        var $data = flatten(_x.map(function (_a) {
+            return (_y.map(function (_b) {
+                return _a.concat([_b]);
+            }));
+        }),true);
+        return $data;
+    }, [[]]);
+    console.log($d);
+    //    console.log(JSON.stringify($d));
+    //    _data.reduce(function(a,b){
+    //        a.map(function(_x){
+    //            b.map(function(_y){
+    //
+    //            });
+    //        });
+    //    });
+    //    _data.map(function(_x){
+    //        _x.map(function(_z){
+    //
+    //        });
+    //    });
+</script>
+
+</body>
+</html>
