@@ -50,7 +50,7 @@
         /*表示是否已经触发TOUCH*/$isStart = false,
         /*表示touch触发位置*/$mouse = {};
         var $html = [], $i, /*记录当前BANNER的位置*/$bgX, $bgTransform;
-        var /*屏幕宽度*/$Width = document.documentElement.clientWidth;
+        var /*屏幕宽度*/$Width = Math.min(document.documentElement.clientWidth, window.innerWidth);
         var $touchEvent;
         if (typeof _opt === "string") {
             $opt.id = _opt;
@@ -61,70 +61,69 @@
         $opt.ele = {};
         //初始化节点
         $opt.ele.bg = $opt.obj.querySelector(".bg");
+        $opt.ele.bgMove = $opt.obj.querySelector(".bgMove");
         $opt.ele.bgNode = $opt.obj.querySelectorAll(".bgNode");
-        for(var i= 0,item;item=$opt.ele.bgNode[i++];){
-            item.style.width=$Width +"px";
+        for (var i = 0, item; item = $opt.ele.bgNode[i++];) {
+            item.style.width = $Width + "px";
         }
         //初始化圆点
         $i = $opt.ele.bgNode.length;
-        if($i<1){
-            throw "没有轮播图.";
-            return;
-        }
+        if($i==0) return;
         for (var i = 0; i < $i; i++) {
             $html.push('<i class="dot"></i>');
         }
         $opt.obj.querySelector('.dots').innerHTML = $html.join('');
         $opt.ele.dots = $opt.obj.querySelectorAll(".dot");
-        $opt.ele.dots[0].className="dot active";
+        $opt.ele.dots[0].className = "dot active";
 
         //setTimeout(function(){
         //    $utils.setCSS($opt.ele.bg,"transition-duration",".5");
         //},1);
         //克隆第一个
         //克隆最后一个
-        var $firstNode=$opt.ele.bgNode[0].cloneNode(true);
-        var $lastNode=$opt.ele.bgNode[$i-1].cloneNode(true);
+        var $firstNode = $opt.ele.bgNode[0].cloneNode(true);
+        var $lastNode = $opt.ele.bgNode[$i - 1].cloneNode(true);
         $opt.ele.bg.appendChild($firstNode);
-        $opt.ele.bg.insertBefore($lastNode,$opt.ele.bgNode[0]);
-        $i+=2;
+        $opt.ele.bg.insertBefore($lastNode, $opt.ele.bgNode[0]);
+        $i += 2;
         //初始化显示
         //这个2是因为需要前后挂接一个 实现无缝切换
         $opt.ele.bg.style.width = ($i + 2) * $Width + "px";
+        //$opt.ele.bgMove.style.width = ($i + 2) * $Width + "px";
         $opt.ele.bg.style.transform = "translateX(" + (-$Width) + "px)";
 
         //挂接自动
         var touchobj = new touch($opt.obj);
         touchobj.start = function (e) {
             //阻止事件冒泡
-            e.preventDefault();
+            e.stopPropagation();
             $isStart = true;
             $mouse = $utils.getXY(e);
             $bgX = $opt.ele.bg.style.transform.slice(11, $opt.ele.bg.style.transform.length - 3) * 1;
         };
-        $touchEvent=function(){
-            $utils.setCSS($opt.ele.bg,"transition-duration",".5s");
-            if($opt.index<0) $opt.index=0;
-            if($opt.index>($i-1)) $opt.index=$i-1;
-            $opt.ele.bg.style.transform = "translateX(" + (-$opt.index*$Width) + "px)";
+        $touchEvent = function () {
+            $utils.setCSS($opt.ele.bg, "transition-duration", ".5s");
+            if ($opt.index < 0) $opt.index = 0;
+            if ($opt.index > ($i - 1)) $opt.index = $i - 1;
+            $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$opt.index * $Width) + "px)");
+            //$opt.ele.bg.style.transform = ;
             //判断是否到了最头部 或者 最尾部
-            if($opt.index==0||$opt.index==$i-1){
-                $opt.index=($opt.index==0?($i-2):1);
-                console.log($opt.index);
-                setTimeout(function(){
-                    $utils.setCSS($opt.ele.bg,"transition-duration","0s");
-                    $opt.ele.bg.style.transform = "translateX(" + (-$opt.index*$Width) + "px)";
-                },500);
+            if ($opt.index == 0 || $opt.index == $i - 1) {
+                $opt.index = ($opt.index == 0 ? ($i - 2) : 1);
+                setTimeout(function () {
+                    $utils.setCSS($opt.ele.bg, "transition-duration", "0s");
+                    $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$opt.index * $Width) + "px)");
+                }, 500);
             }
             //设置亮点
-            for(var i=0;i<$i-2;i++){
-                $opt.ele.dots[i].className="dot";
+            for (var i = 0; i < $i - 2; i++) {
+                $opt.ele.dots[i].className = "dot";
             }
-            $opt.ele.dots[$opt.index-1].className="dot active";
+            $opt.ele.dots[$opt.index - 1].className = "dot active";
 
         };
         touchobj.end = function (e) {
-            e.preventDefault();
+            //e.stopPropagation();
             $isStart = false;
             var $nowMouse = $utils.getXY(e);
             var $direction = $nowMouse.x - $mouse.x;
@@ -138,20 +137,20 @@
                 }
                 $touchEvent();
             }
-            else{
+            else {
                 //用于复原
-                $opt.ele.bg.style.transform = "translateX(" + (-$opt.index*$Width) + "px)";
+                $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$opt.index * $Width) + "px)");
             }
             $mouse = null;
         };
         touchobj.move = function (e) {
             e.preventDefault();
             if ($isStart && $mouse) {
-                $utils.setCSS($opt.ele.bg,"transition-duration","0s");
+                $utils.setCSS($opt.ele.bg, "transition-duration", "0s");
                 var $nowMouse = $utils.getXY(e);
                 var $isleft = ($nowMouse.x - $mouse.x) < 0;
                 var $deviation = $nowMouse.x - $mouse.x;
-                $opt.ele.bg.style.transform = "translateX(" + ($bgX + $deviation) + "px)";
+                $utils.setCSS($opt.ele.bg,"transform","translateX(" + ($bgX + $deviation) + "px)");
             }
         };
         touchobj.resize = function (e) {
@@ -163,12 +162,12 @@
         };
 
         //自动轮播
-        setInterval(function(){
-            if(!$isStart){
+        setInterval(function () {
+            if (!$isStart) {
                 $opt.index++;
                 $touchEvent();
             }
-        },3000);
+        }, 5000);
 
     };
 

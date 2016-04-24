@@ -34,9 +34,9 @@
         $eventResize= $hasTouch?"orientationchange" :   "resize",
         $eventcancel= $hasTouch?"touchcancel"       :   "mouseup";
     var $touch;
-    var $obj=null;
 
     $touch=function(element){
+        var $obj=null;
         $d=$that.document;
         $b=$d.body;
         if(element==undefined){
