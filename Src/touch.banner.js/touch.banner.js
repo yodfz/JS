@@ -90,7 +90,7 @@
         //这个2是因为需要前后挂接一个 实现无缝切换
         $opt.ele.bg.style.width = ($i + 2) * $Width + "px";
         //$opt.ele.bgMove.style.width = ($i + 2) * $Width + "px";
-        $opt.ele.bg.style.transform = "translateX(" + (-$Width) + "px)";
+        $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$Width) + "px)");
 
         //挂接自动
         var touchobj = new touch($opt.obj);
