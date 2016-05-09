@@ -22,47 +22,45 @@
  * */
 (function () {
     "use strict";
+    var $that = this,
+        $d,
+        $b;
+    //$lock;
+    var $hasTouch = "ontouchstart" in $that;
+    var $eventStart = $hasTouch ? "touchstart" : "mousedown",
+        $eventEnd = $hasTouch ? "touchend" : "mouseup",
+        $eventMove = $hasTouch ? "touchmove" : "mousemove",
+        $eventResize = $hasTouch ? "orientationchange" : "resize",
+        $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
+    var $touch;
 
-    var $touch = function (element) {
-        var $that = this,
-            $d,
-            $b;
-        //$lock;
-        var $hasTouch = "ontouchstart" in $that;
-        var $eventStart = $hasTouch ? "touchstart" : "mousedown",
-            $eventEnd = $hasTouch ? "touchend" : "mouseup",
-            $eventMove = $hasTouch ? "touchmove" : "mousemove",
-            $eventResize = $hasTouch ? "orientationchange" : "resize",
-            $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
+    $touch = function (element) {
         var $obj = null;
-
         $d = $that.document;
         $b = $d.body;
         if (element == undefined) {
             $obj = $b;
-        }
-        else {
+        } else {
             $obj = element;
         }
-
         $obj.addEventListener($eventStart, function (e) {
-            this.start(e);
+            $touch.start(e);
         });
 
         $obj.addEventListener($eventEnd, function (e) {
-            this.end(e);
+            $touch.end(e);
         });
 
         $obj.addEventListener($eventMove, function (e) {
-            this.move(e);
+            $touch.move(e);
         });
-
         window.addEventListener($eventResize, function (e) {
-            this.resize(e);
+            $touch.resize(e);
         });
 
         $obj.addEventListener($eventcancel, function (e) {
-            this.cancel(e);
+
+            $touch.cancel(e);
         });
         return $touch;
     };
@@ -83,3 +81,4 @@
     };
     $that.touch = $touch;
 }).call(this, document);
+
