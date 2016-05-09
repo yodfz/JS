@@ -1,8 +1,20 @@
 
 .js-module-banner {
   position: relative;
-  transform: translate3d(0);
   overflow: hidden;
+  width: 100%;
+  transform: translateZ(0px);
+  z-index:1;
+  -webkit-backface-visibility:hidden;
+  -webkit-transform-style:preserve-3d;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+  img{
+    -webkit-backface-visibility:hidden;
+    -webkit-transform-style:preserve-3d;
+    backface-visibility:hidden;
+    transform-style:preserve-3d;
+  }
   //img {
   //  #js-module-banner();
   //  //width:100%;
