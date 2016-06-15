@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>移动端兼容性测试</title>
+    <meta id="viewport" name="viewport" content="">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta content="email=no" name="format-detection">
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-size:14px;
+        }
+
+        /*阻止旋转屏幕时自动调整字体大小*/
+        html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 {
+            -webkit-text-size-adjust: none;
+        }
+
+        /*iPhone才识别的CSS*/
+        @media screen and (max-device-width: 480px) {
+        }
+
+        @media only screen and (-webkit-max-device-pixel-ratio: 1) {
+            #pot1{display:block;}
+        }
+        @media only screen and (-webkit-max-device-pixel-ratio: 2) {
+            #pot2{display:block;}
+        }
+        @media only screen and (-webkit-max-device-pixel-ratio: 3/2) {
+            #pot15 {
+                display: block;
+            }
+        }
+        @media only screen and (-webkit-max-device-pixel-ratio: 5/2) {
+            #pot25 {
+                display: block;
+            }
+        }
+        @media only screen and  (-webkit-max-device-pixel-ratio: 3) {
+            #pot3{display:block;}
+        }
+        .checkRatio{
+            line-height:30px;
+            display:none;
+            background-color: #8dcf61;
+            text-align: center;
+            color:#fff;
+        }
+    </style>
+    <script>
+        function wr(v) {
+            document.write(v);
+        }
+        function setDPR() {
+            //定义设计稿宽度
+            const desWidth = 750;
+            //设置当前缩放比例
+            var _dpr = (1 / window.devicePixelRatio);
+            document.getElementById('viewport').setAttribute("content",
+                    "initial-scale=" + _dpr + ", maximum-scale=" + _dpr + ", minimum-scale=" + _dpr + ", user-scalable=no");
+            var iWidth = Math.min(document.documentElement.clientWidth, window.innerWidth);
+            //定义1rem宽度
+            document.getElementsByTagName('html')[0].style.fontSize = (((100 * iWidth ) / desWidth)) + 'px';
+            /*
+             (((100 * iWidth ) / desWidth)) * window.devicePixelRatio
+             首先将当前屏幕宽度放大100倍,接着除以设计稿宽度,那么就得出了 100PX设计稿宽度 在当前屏幕是多少PX了
+             接着我们乘以了一个 当前屏幕像素比.
+             为什么要乘以像素比
+             因为设计稿是按照1:1设计的
+             而手机上会有 2个物理像素点组成一个虚拟像素点.
+             然而我们已经设置了缩放比,所以要乘以当前屏幕1虚拟像素=多少物理像素
+             最后在LESS里面
+             只要设置  物体宽度/设计稿宽度*100REM即可.
+             */
+            //var $fontsizeCss = [
+            //    '.fs_25{font-size:' + (12.5 * window.devicePixelRatio) + 'px;}',
+            //    '.fs_21{font-size:' + (10.5 * window.devicePixelRatio) + 'px;}',
+            //    '.fs_33{font-size:' + (16.5 * window.devicePixelRatio) + 'px;}',
+            //    '.fs_29{font-size:' + (14.5 * window.devicePixelRatio) + 'px;}',
+            //    '.fs_7{font-size:' + (7.5 * window.devicePixelRatio) + 'px;}'];
+            //for (var i = 7; i <= 24; i++) {
+            //    $fontsizeCss.push(".fs" + i + "{font-size:" + (i * window.devicePixelRatio) + "px}");
+            //}
+            //document.querySelector("#fontsize").innerHTML = $fontsizeCss.join('');
+        }
+        setDPR();
+    </script>
+</head>
+<body>
+<div style="background:#0099ee;color:#fff; text-align: center;line-height: 30px;;">
+    当前像素点:
+    <script>wr(window.devicePixelRatio)</script>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    宽度:
+    <script>wr(Math.min(document.documentElement.clientWidth, window.innerWidth))</script>
+    px&nbsp;&nbsp;&nbsp;&nbsp;
+    高度:
+    <script>wr(Math.min(document.documentElement.clientHeight, window.innerHeight))</script>
+    是否支持WebP格式:
+    <script>
+        wr((function () {
+            var elem = document.createElement('canvas');
+            if (!!(elem.getContext && elem.getContext('2d'))) {
+                return elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+            }
+            else {
+                return false;
+            }
+        }()));
+    </script>
+</div>
+<div id="pot1" class="checkRatio">
+    当前使用像素点为1的CLASS
+</div>
+<div id="pot15" class="checkRatio">
+    当前使用像素点为1.5的CLASS
+</div>
+<div id="pot2" class="checkRatio">
+    当前使用像素点为2的CLASS
+
+</div>
+<div id="pot25" class="checkRatio">
+    当前使用像素点为2.5的CLASS
+
+</div>
+<div id="pot3" class="checkRatio">
+    当前使用像素点为3的CLASS
+</div>
+<h3>前缀支持</h3>
+<p>
+    无:
+    <script>wr('border-radius' in document.body.style)</script>
+    <br/>
+    -webkit-:
+    <script>wr('-webkit-border-radius' in document.body.style)</script>
+    <br/>
+    -moz-:
+    <script>wr('-moz-border-radius' in document.body.style)</script>
+    <br/>
+    -ms-:
+    <script>wr('-ms-border-radius' in document.body.style)</script>
+    <br/>
+    -o-:
+    <script>wr('-o-border-radius' in document.body.style)</script>
+    <br/>
+</p>
+<h3>viewport</h3>
+<p>
+    width - // viewport 的宽度 （范围从200 到10,000，默认为980 像素）<br/>
+    height - // viewport 的高度 （范围从223 到10,000）<br/>
+    initial-scale - // 初始的缩放比例 （范围从>0 到10）<br/>
+    minimum-scale - // 允许用户缩放到的最小比例<br/>
+    maximum-scale - // 允许用户缩放到的最大比例<br/>
+    user-scalable - // 用户是否可以手动缩 (no,yes)
+</p>
+<h3>头meta媒体设置</h3>
+<p style="line-height: 25px;font-size:14px;">
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-mobile-web-app-capable&quot;&gt;
+    是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。<br/>
+    &lt;meta content=&quot;black&quot; name=&quot;apple-mobile-web-app-status-bar-style&quot;&gt;
+    当启动webapp功能时，显示手机信号、时间、电池的顶部导航栏的颜色。默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明）。这个主要是根据实际的页面设计的主体色为搭配来进行设置。
+    <br/>
+    &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;/&gt; <br/>
+    &lt;meta content=&quot;telephone=no&quot; name=&quot;format-detection&quot;&gt; 不识别电话 无法进行拨打 <br/>
+    &lt;meta content=&quot;email=no&quot; name=&quot;format-detection&quot;&gt; 不自动识别EMAIL地址<br/>
+    &lt;meta name=&quot;format-detection&quot; content=&quot;telphone=no, email=no&quot; /&gt;<br/>
+    &lt;!-- 启用360浏览器的极速模式(webkit) --&gt;<br/>
+    &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;<br/>
+    &lt;!-- 避免IE使用兼容模式 --&gt;<br/>
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;<br/>
+    &lt;!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 --&gt;<br/>
+    &lt;meta name=&quot;HandheldFriendly&quot; content=&quot;true&quot;&gt;<br/>
+    &lt;!-- 微软的老式浏览器 --&gt;<br/>
+    &lt;meta name=&quot;MobileOptimized&quot; content=&quot;320&quot;&gt;<br/>
+    &lt;!-- uc强制竖屏 --&gt;<br/>
+    &lt;meta name=&quot;screen-orientation&quot; content=&quot;portrait&quot;&gt;<br/>
+    &lt;!-- QQ强制竖屏 --&gt;<br/>
+    &lt;meta name=&quot;x5-orientation&quot; content=&quot;portrait&quot;&gt;<br/>
+    &lt;!-- UC强制全屏 --&gt;<br/>
+    &lt;meta name=&quot;full-screen&quot; content=&quot;yes&quot;&gt;<br/>
+    &lt;!-- QQ强制全屏 --&gt;<br/>
+    &lt;meta name=&quot;x5-fullscreen&quot; content=&quot;true&quot;&gt;<br/>
+    &lt;!-- UC应用模式 --&gt;<br/>
+    &lt;meta name=&quot;browsermode&quot; content=&quot;application&quot;&gt;<br/>
+    &lt;!-- QQ应用模式 --&gt;<br/>
+    &lt;meta name=&quot;x5-page-mode&quot; content=&quot;app&quot;&gt;<br/>
+    &lt;!-- windows phone 点击无高光 --&gt;<br/>
+    &lt;meta name=&quot;msapplication-tap-highlight&quot; content=&quot;no&quot;&gt;<br/>
+</p>
+<h3>表单相关</h3>
+<p>
+    autocapitalize="off" 禁止首字母大写
+</p>
+<h3>CSS相关</h3>
+<p>
+    -webkit-touch-callout 禁止长按弹出
+    -webkit-user-select 禁止选中
+</p>
+</body>
+<script>
+    alert(Math.min(document.documentElement.clientWidth, window.innerWidth))
+</script>
+</html>

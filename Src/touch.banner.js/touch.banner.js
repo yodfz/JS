@@ -47,6 +47,7 @@
     };
     $fn = function (_opt) {
         var /*基本配置*/$opt = {},
+        /**/ $si,
         /*表示是否已经触发TOUCH*/$isStart = false,
         /*表示touch触发位置*/$mouse = {};
         var $html = [], $i, /*记录当前BANNER的位置*/$bgX, $bgTransform;
@@ -68,7 +69,6 @@
         }
         //初始化圆点
         $i = $opt.ele.bgNode.length;
-        if($i==0) return;
         for (var i = 0; i < $i; i++) {
             $html.push('<i class="dot"></i>');
         }
@@ -90,7 +90,7 @@
         //这个2是因为需要前后挂接一个 实现无缝切换
         $opt.ele.bg.style.width = ($i + 2) * $Width + "px";
         //$opt.ele.bgMove.style.width = ($i + 2) * $Width + "px";
-        $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$Width) + "px)");
+        $utils.setCSS($opt.ele.bg, "transform", "translateX(" + (-$Width) + "px)");
 
         //挂接自动
         var touchobj = new touch($opt.obj);
@@ -100,19 +100,20 @@
             $isStart = true;
             $mouse = $utils.getXY(e);
             $bgX = $opt.ele.bg.style.transform.slice(11, $opt.ele.bg.style.transform.length - 3) * 1;
+            clearInterval($si);
         };
         $touchEvent = function () {
             $utils.setCSS($opt.ele.bg, "transition-duration", ".5s");
             if ($opt.index < 0) $opt.index = 0;
             if ($opt.index > ($i - 1)) $opt.index = $i - 1;
-            $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$opt.index * $Width) + "px)");
-            //$opt.ele.bg.style.transform = ;
+            $utils.setCSS($opt.ele.bg, "transform", "translateX(" + (-$opt.index * $Width) + "px)");
             //判断是否到了最头部 或者 最尾部
             if ($opt.index == 0 || $opt.index == $i - 1) {
                 $opt.index = ($opt.index == 0 ? ($i - 2) : 1);
                 setTimeout(function () {
                     $utils.setCSS($opt.ele.bg, "transition-duration", "0s");
-                    $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$opt.index * $Width) + "px)");
+                    $utils.setCSS($opt.ele.bg, "transform", "translateX(" + (-$opt.index * $Width) + "px)");
+                    //$opt.ele.bg.style.transform = "translateX(" + (-$opt.index * $Width) + "px)";
                 }, 500);
             }
             //设置亮点
@@ -139,9 +140,16 @@
             }
             else {
                 //用于复原
-                $utils.setCSS($opt.ele.bg,"transform","translateX(" + (-$opt.index * $Width) + "px)");
+                $utils.setCSS($opt.ele.bg, "transform", "translateX(" + (-$opt.index * $Width) + "px)");
             }
             $mouse = null;
+            //自动轮播
+            $si=setInterval(function () {
+                if (!$isStart) {
+                    $opt.index++;
+                    $touchEvent();
+                }
+            }, 5000);
         };
         touchobj.move = function (e) {
             e.preventDefault();
@@ -150,26 +158,15 @@
                 var $nowMouse = $utils.getXY(e);
                 var $isleft = ($nowMouse.x - $mouse.x) < 0;
                 var $deviation = $nowMouse.x - $mouse.x;
-                $utils.setCSS($opt.ele.bg,"transform","translateX(" + ($bgX + $deviation) + "px)");
+                $utils.setCSS($opt.ele.bg, "transform", "translateX(" + ($bgX + $deviation) + "px)");
             }
         };
         touchobj.resize = function (e) {
             e.preventDefault();
-
         };
         touchobj.cancel = function (e) {
             e.preventDefault();
         };
-
-        //自动轮播
-        setInterval(function () {
-            if (!$isStart) {
-                $opt.index++;
-                $touchEvent();
-            }
-        }, 5000);
-
     };
-
     return $fn;
 }));

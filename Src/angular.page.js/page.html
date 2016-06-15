@@ -1,0 +1,33 @@
+<div class="table-footer clearfix" style="border:0px;">
+    <div class="DT-label">
+        <div class="dataTables_info" id="jq-datatables-example_info" role="alert" aria-live="polite"
+             aria-relevant="all">共{{allCount}}条记录
+            <!--<select name="" id="">-->
+            <!--<option value="10">10</option>-->
+            <!--<option value="20">20</option>-->
+            <!--<option value="30">30</option>-->
+            <!--<option value="50">50</option>-->
+            <!--</select>-->
+        </div>
+    </div>
+    <div class="DT-pagination">
+        <div class="dataTables_paginate paging_simple_numbers" id="jq-datatables-example_paginate">
+            <ul class="pagination">
+                <li class="paginate_button previous" ng-class="{'disabled':currentPage==1}"
+                    aria-controls="jq-datatables-example" tabindex="0"
+                    id="jq-datatables-example_previous"><a ng-click="prev()">上一页</a>
+                </li>
+
+                <li class="paginate_button"
+                    ng-repeat="item in (pageNumber.length<1?[1]:pageNumber)"
+                    ng-class="{'active':currentPage==null||currentPage==item}">
+                    <a ng-click="onchange(item)">{{item}}</a></li>
+
+                <li class="paginate_button next" ng-class="{'disabled':currentPage==allPage}"
+                    aria-controls="jq-datatables-example" tabindex="0"
+                    id="jq-datatables-example_next"><a
+                        ng-click="currentPage!=allPage&&next()">下一页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

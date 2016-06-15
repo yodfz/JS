@@ -37,7 +37,7 @@
                 if($imgs[i].dataset.top==undefined){
                     $top = $imgs[i].offsetTop;
                     var $p = $imgs[i].offsetParent;
-                    while ($p.tagName != "BODY") {
+                    while ($p && $p.tagName != "BODY") {
                         $top += $p.offsetTop;
                         $p = $p.offsetParent;
                     }
