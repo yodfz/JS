@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<canvas width="1000" height="500">
+
+</canvas>
+<script>
+    var ctx = document.querySelector("canvas").getContext('2d');
+    ctx.textBaseline = 'middle';
+    ctx.font = '200px sans-serif';
+    ctx.fillStyle = '#900';
+    ctx.fillText('粒子', 0,100);
+</script>
+</body>
+</html>
