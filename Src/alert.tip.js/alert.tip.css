@@ -28,4 +28,5 @@
     transition-duration:2s;
     -webkit-animation: js-alertHidden 2s ease-in-out forwards;
     animation: js-alertHidden 2s ease-in-out forwards;
+    z-index:999;
 }

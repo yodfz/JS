@@ -25,6 +25,7 @@
     //        isload:false
     //    });
     //}
+    // 查看是否支持监听DOM变动 MutationObserver
     var $layzImgTimeout,t;
     var $winHeight = window.innerHeight;
     window.onscroll = function () {
