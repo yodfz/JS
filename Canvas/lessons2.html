@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>进度圈</title>
+</head>
+<body>
+<canvas width="200" height="200" id="c1"></canvas>
+<script>
+    var c1 = document.querySelector("#c1");
+    var c1ctx = c1.getContext('2d');
+    var i = 0;
+    console.log(c1);
+    (function draw() {
+        requestAnimationFrame(draw);
+        c1ctx.clearRect(0, 0, c1.width, c1.height);
+
+        c1ctx.beginPath();
+        c1ctx.arc(100, 100, 80, 0, Math.PI * 2);
+        c1ctx.closePath();
+        c1ctx.fillStyle = '#F6F6F6';
+        c1ctx.fill();
+
+        c1ctx.beginPath();
+        c1ctx.moveTo(100, 100);
+        c1ctx.arc(100, 100, 80, Math.PI * 1.5, Math.PI * (1.5 + 2 * i / 100));
+        c1ctx.closePath();
+        c1ctx.fillStyle = '#96E';
+        c1ctx.fill();
+
+        c1ctx.beginPath();
+        c1ctx.arc(100, 100, 78, 0, Math.PI*2);
+        c1ctx.closePath();
+        c1ctx.fillStyle = '#fff';
+        c1ctx.fill();
+
+        c1ctx.font = "bold 20pt Microsoft YaHei";
+        c1ctx.fillStyle = '#333';
+        c1ctx.textAlign = 'center';
+        c1ctx.textBaseline = 'middle';
+        c1ctx.moveTo(100, 100);
+        c1ctx.fillText(i+'%', 100, 100);
+    })();
+    setInterval(function () {
+        i++
+    }, 100);
+</script>
+</body>
+</html>
