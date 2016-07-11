@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击类按钮用户体验交互 动效</title>
+    <style>
+        button {
+            border: 0px;
+            -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+            outline: none;
+        }
+
+        .button_ani_1 {
+            width: 100px;
+            height: 30px;
+            font-size: 14px;
+            transition-duration: .1s;
+        }
+        .button_ani_1_act {
+            font-size: 10px;
+        }
+
+
+    </style>
+    <script>
+        var $hasTouch = "ontouchstart" in window;
+        var $eventStart = $hasTouch ? "touchstart" : "mousedown",
+            $eventEnd = $hasTouch ? "touchend" : "mouseup",
+            $eventMove = $hasTouch ? "touchmove" : "mousemove",
+            $eventResize = $hasTouch ? "orientationchange" : "resize",
+            $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
+        var animation = {
+            timeout: {
+                'button_ani_1': 100
+            }
+        };
+        document.addEventListener($eventStart, function (e) {
+            var $that = e.target;
+            var _classname = $that.className;
+            if ($that.dataset.animation) {
+                $that.className = _classname + ' ' + $that.dataset.animation + '_act';
+                setTimeout(function () {
+                    $that.className = _classname;
+                }, animation.timeout[$that.dataset.animation]);
+            }
+        });
+    </script>
+</head>
+<body>
+<button class="button_ani_1" data-animation="button_ani_1">测试动效</button>
+</body>
+</html>
