@@ -16,6 +16,7 @@
             font-size: 14px;
             transition-duration: .1s;
         }
+
         .button_ani_1_act {
             font-size: 10px;
         }
@@ -25,10 +26,10 @@
     <script>
         var $hasTouch = "ontouchstart" in window;
         var $eventStart = $hasTouch ? "touchstart" : "mousedown",
-            $eventEnd = $hasTouch ? "touchend" : "mouseup",
-            $eventMove = $hasTouch ? "touchmove" : "mousemove",
-            $eventResize = $hasTouch ? "orientationchange" : "resize",
-            $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
+                $eventEnd = $hasTouch ? "touchend" : "mouseup",
+                $eventMove = $hasTouch ? "touchmove" : "mousemove",
+                $eventResize = $hasTouch ? "orientationchange" : "resize",
+                $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
         var animation = {
             timeout: {
                 'button_ani_1': 100
@@ -37,7 +38,7 @@
         document.addEventListener($eventStart, function (e) {
             var $that = e.target;
             var _classname = $that.className;
-            if ($that.dataset.animation) {
+            if ($that.dataset.animation && $that.className.indexOf($that.dataset.animation + '_act') == -1) {
                 $that.className = _classname + ' ' + $that.dataset.animation + '_act';
                 setTimeout(function () {
                     $that.className = _classname;
