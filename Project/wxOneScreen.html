@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>禁止微信上下</title>
     <style>
-        body{
-            height:100vh;
-            overflow:hidden;
+        body {
+            height: 100vh;
+            overflow: hidden;
         }
-        .wrapp{
-            height:100vh;
-            overflow-y:scroll;
+
+        .wrapp {
+            height: 100vh;
+            overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
         }
     </style>
@@ -88,6 +89,9 @@
         阿三浪费空间ADSL开发<br/>
         阿三浪费空间ADSL开发<br/>
         阿三浪费空间ADSL开发<br/>
+        <div style="height:100px;background-color: green;">
+
+        </div>
         阿三浪费空间ADSL开发<br/>
         阿三浪费空间ADSL开发<br/>
         阿三浪费空间ADSL开发<br/>
@@ -135,5 +139,27 @@
         阿三浪费空间ADSL开发<br/>
     </div>
 </div>
+<script>
+    var _wrapp = document.querySelector(".wrapp");
+    _wrapp.scrollTop = 1;
+    document.querySelector("body").addEventListener('touchmove', function (e) {
+        if (_wrapp.scrollTop == 0) {
+            e.preventDefault();
+        }
+    });
+    document.querySelector("body").addEventListener('touchend', function (e) {
+        if (_wrapp.scrollTop == 0) {
+            _wrapp.scrollTop = 1;
+        }
+    });
+    //    document.querySelector("body").addEventListener('touchstart',function(e){
+    //        e.preventDefault();
+    //        e.stopPropagation();
+    //    });
+    //    document.querySelector("body").addEventListener('touchend',function(e){
+    //        e.preventDefault();
+    //        e.stopPropagation();
+    //    });
+</script>
 </body>
 </html>
