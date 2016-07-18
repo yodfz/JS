@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #fff;
+        }
+
+        .message {
+            background-color: rgba(255, 255, 255, .8);
+            margin: 0 10%;
+            width: 80%;
+            min-height: 100px;
+            border-radius: 10px;
+            -webkit-border-radius: 3px;
+            box-shadow: 1px 1px 10px #ccc;
+            -webkit-box-shadow: 1px 1px 10px #ccc;
+            color:#000;
+        }
+        .message .title{
+            text-align: center;
+            height:30px;
+            line-height:30px;
+            font-size:14px;
+        }
+        .message .content{
+            padding:10px;
+            font-size:12px;
+            line-height:20px;
+            text-align: center;
+            color:#666;
+        }
+        .message .buttonGroup:after{
+            content:' ';
+            clear:both;
+        }
+        .message .buttonGroup{
+            padding-top:10px;
+            height:40px;
+        }
+        .message .buttonGroup .leftBtn,
+        .message .buttonGroup .rightBtn{
+            width:50%;
+            float:left;
+            border:0px;
+            height:40px;
+            background-color: transparent;
+            outline: none;
+            transition-duration: .2s;
+            font-size:12px;
+        }
+        .message .buttonGroup .leftBtn{
+            border-top:1px solid #f2f2f2;
+            box-sizing: border-box;
+        }
+        .message .buttonGroup .rightBtn{
+            background-color: #ef4720;
+            border-bottom-right-radius: 3px;
+            color:#fff;
+        }
+
+        .message .buttonGroup button[disabled]{
+            background-color: #ccc;
+        }
+
+        .button_ani_1 {
+            transition-duration: .1s;
+        }
+
+        .button_ani_1_act {
+            font-size: 10px !important;
+        }
+
+        .button_ani_2 {
+            transition-duration: .2s;
+        }
+
+        .button_ani_2_act {
+            animation: button_ani_2 .2s ease-in 1;
+        }
+
+
+        .button_ani_3_act {
+            font-size:16px;
+        }
+
+        @keyframes button_ani_2 {
+            0% {
+                transform: scale(.95);
+                -webkit-transform: scale(.95);
+            }
+            50% {
+                transform: scale(1.1);
+                -webkit-transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
+        }
+        @-webkit-keyframes button_ani_2 {
+            0% {
+                transform: scale(.7);
+                -webkit-transform: scale(.7);
+            }
+            50% {
+                transform: scale(1.1);
+                -webkit-transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
+        }
+    </style>
+    <script>
+        var $hasTouch = "ontouchstart" in window;
+        var $eventStart = $hasTouch ? "touchstart" : "mousedown",
+                $eventEnd = $hasTouch ? "touchend" : "mouseup",
+                $eventMove = $hasTouch ? "touchmove" : "mousemove",
+                $eventResize = $hasTouch ? "orientationchange" : "resize",
+                $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
+        var animation = {
+            timeout: {
+                'button_ani_1': 100,
+                'button_ani_2': 200,
+                'button_ani_3': 200,
+            }
+        };
+        document.addEventListener($eventStart, function (e) {
+            var $that = e.target;
+            var _classname = $that.className;
+            if ($that.dataset.animation && $that.className.indexOf($that.dataset.animation + '_act') == -1) {
+                $that.className = _classname + ' ' + $that.dataset.animation + '_act';
+                setTimeout(function () {
+                    $that.className = _classname;
+                }, animation.timeout[$that.dataset.animation]);
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="message">
+    <div class="title">
+        弹出消息测试框
+    </div>
+    <div class="content">
+        是否确认删除此商品?一旦删除无法再次找回!
+    </div>
+    <div class="buttonGroup">
+        <button class="leftBtn" data-animation="button_ani_2">取消</button>
+        <button class="rightBtn" data-animation="button_ani_2">确定</button>
+    </div>
+</div>
+</body>
+</html>

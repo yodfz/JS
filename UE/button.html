@@ -8,17 +8,56 @@
             border: 0px;
             -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
             outline: none;
-        }
-
-        .button_ani_1 {
             width: 100px;
             height: 30px;
             font-size: 14px;
+            margin-bottom:10px;
+            transform: translateZ(0px);
+        }
+
+        .button_ani_1 {
             transition-duration: .1s;
         }
 
         .button_ani_1_act {
             font-size: 10px;
+        }
+
+        .button_ani_2 {
+            transition-duration: .2s;
+        }
+
+        .button_ani_2_act {
+            animation: button_ani_2 .2s ease-in 1;
+        }
+
+        @keyframes button_ani_2 {
+            0% {
+                transform: scale(.7);
+                -webkit-transform: scale(.7);
+            }
+            50% {
+                transform: scale(1.1);
+                -webkit-transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
+        }
+        @-webkit-keyframes button_ani_2 {
+            0% {
+                transform: scale(.7);
+                -webkit-transform: scale(.7);
+            }
+            50% {
+                transform: scale(1.1);
+                -webkit-transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
         }
 
 
@@ -32,7 +71,8 @@
                 $eventcancel = $hasTouch ? "touchcancel" : "mouseup";
         var animation = {
             timeout: {
-                'button_ani_1': 100
+                'button_ani_1': 100,
+                'button_ani_2': 200
             }
         };
         document.addEventListener($eventStart, function (e) {
@@ -49,5 +89,7 @@
 </head>
 <body>
 <button class="button_ani_1" data-animation="button_ani_1">测试动效</button>
+<br/>
+<button class="button_ani_2" data-animation="button_ani_2">测试动效</button>
 </body>
 </html>
