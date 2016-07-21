@@ -1,0 +1,88 @@
+.message {
+  position: fixed;
+  background-color: rgba(255, 255, 255, .8);
+  margin: 0 8%;
+  width: 84%;
+  top: 20%;
+  padding-top: .15rem;
+  background-color: #fff;
+  min-height: 1rem;
+  border-radius: .1rem;;
+  -webkit-border-radius: .1rem;
+  //box-shadow: 1px 1px 10px #ccc;
+  //-webkit-box-shadow: 1px 1px 10px #ccc;
+  color: #000;
+  z-index: 20;
+}
+
+.screenLock {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  height: 100%;
+  //background-color: transparent;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.message .title {
+  text-align: center;
+  height: .4rem;
+  line-height: .4rem;
+  font-size: .32rem;
+}
+
+.message .content {
+  padding: .2rem;
+  font-size: .32rem;
+  line-height: .5rem;
+  text-align: center;
+  color: #666;
+  font-weight:100;
+}
+
+.message .buttonGroup:after {
+  content: ' ';
+  clear: both;
+}
+
+.message .buttonGroup {
+  padding-top: .1rem;
+  height: .6rem;
+}
+
+.message .buttonGroup .leftBtn,
+.message .buttonGroup .rightBtn,
+.message .buttonGroup .btn{
+  width: 50%;
+  float: left;
+  border: 0px;
+  height: .8rem;
+  background-color: transparent;
+  outline: none;
+  transition-duration: .2s;
+  font-size: .32rem;
+}
+.message .buttonGroup .btn{
+  width:100% !important;
+  border-bottom-right-radius: .1rem;
+  border-bottom-left-radius: .1rem;
+  border-top:1px solid #eee;
+  color: @baseColor
+}
+.message .buttonGroup .leftBtn {
+  border-top: 1px solid #eee;
+  box-sizing: border-box;
+}
+
+.message .buttonGroup .rightBtn {
+  // #ef4720
+  background-color: @baseColor;
+  border-bottom-right-radius: .1rem;
+  color: #fff;
+}
+
+.message .buttonGroup button[disabled] {
+  background-color: #ccc;
+}
