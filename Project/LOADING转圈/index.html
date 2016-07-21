@@ -18,8 +18,8 @@
             left:50px;
             top:35px;
             width: 100px;
-            height:0px;
-            background-color: #000;
+            height:20px;
+            background-color: #FFF;
             transform: translateZ(0);
             -webkit-animation:ra 3s infinite linear;
             animation:ra 3s infinite linear;
@@ -48,21 +48,16 @@
 
         @keyframes ra {
             0%{
-                height:0px;
                 transform-origin:0% 50%;
-
                 transform: rotate(0deg);
             }
             50%{
-                height:80px;
                 transform-origin:0% 50%;
 
                 transform: rotate(180deg);
             }
             100%{
-                height:0px;
                 transform-origin:0% 50%;
-
                 transform: rotate(360deg);
             }
         }
