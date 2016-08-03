@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .conpou {
+            width: 400px;
+            height: 100px;
+
+            border-radius: 5px;
+        }
+
+        .left, .right {
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .left {
+            width: 250px;
+            height: 100px;
+            color: #FF4A79;
+        }
+
+        .right {
+            position: relative;
+            width: 150px;
+            height: 200px;
+            background: repeating-linear-gradient(to bottom, #fff 0px, #fff 3px, #FF4A79 3px, #FF4A79 10px, #fff 10px);
+            box-sizing: border-box;
+            padding-left: 5px;
+        }
+
+        .right:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 3px;
+            right: 0px;
+            background-color: #FF4A79;
+        }
+
+    </style>
+</head>
+<body>
+<div class="conpou">
+    <div class="left">
+
+    </div>
+    <div class="right">
+
+    </div>
+</div>
+<script>
+    var s = [];
+    alert('find' in s);
+</script>
+</body>
+</html>

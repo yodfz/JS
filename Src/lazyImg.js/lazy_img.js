@@ -14,7 +14,7 @@
  */
 (function () {
     var $imgs = document.querySelectorAll("img[data-src]");
-    var $length=$imgs.length;
+    var $length = $imgs.length;
 
     //var $imgData=[];
     //优化点1 可能可以取消
@@ -26,36 +26,46 @@
     //    });
     //}
     // 查看是否支持监听DOM变动 MutationObserver
-    var $layzImgTimeout,t;
+    //（1）DOMSubtreeModified：在DOM结构中发生的任何变化时触发。这个事件在其他任何事件触发后都会触发。
+    //
+    //（2）DOMNodeInserted：在一个节点作为子节点被插入到另一个节点中时触发。
+    //
+    //（3）DOMNodeRemoved：在节点从其父节点中被移除时触发。
+    var $layzImgTimeout, t;
     var $winHeight = window.innerHeight;
+    var lazyImg = function () {
+        $imgs = document.querySelectorAll("img[data-src]");
+        $length = $imgs.length;
+    };
     window.onscroll = function () {
         t = document.documentElement.scrollTop || document.body.scrollTop;
         clearTimeout($layzImgTimeout);
         t += $winHeight;
         $layzImgTimeout = setTimeout(function () {
-            for (var i = 0;i<$length;i++) {
+            for (var i = 0; i < $length; i++) {
                 var $top;
-                if($imgs[i].dataset.top==undefined){
+                if ($imgs[i].dataset.top == undefined) {
                     $top = $imgs[i].offsetTop;
                     var $p = $imgs[i].offsetParent;
                     while ($p && $p.tagName != "BODY") {
                         $top += $p.offsetTop;
                         $p = $p.offsetParent;
                     }
-                    $imgs[i].dataset.top=$top;
+                    $imgs[i].dataset.top = $top;
                 }
-                $top=$imgs[i].dataset.top;
+                $top = $imgs[i].dataset.top;
                 //优化点2 考虑记录已经加载的图片INDEX 然后删除它
-                if ($top >= (t - $winHeight * 1.5) && $top <= t&&!$imgs[i].dataset.isload) {
+                if ($top >= (t - $winHeight * 1.5) && $top <= t && !$imgs[i].dataset.isload) {
                     $imgs[i].src = $imgs[i].dataset.src;
                     $imgs[i].dataset.isload = true;
                     $imgs[i].onload = function () {
                         this.style.opacity = "1.0";
-                        this.onload=null;
+                        this.onload = null;
                     };
                 }
             }
         }, 500);
     };
+    window.lazyImg = lazyImg;
 }());
 window.onscroll();
