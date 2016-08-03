@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMO</title>
+    <script src="lazy_img.js"></script>
+</head>
+<body>
+<div class="three"></div>
+<button onclick="add()" style="width:100%;height:50px;background-color: red;font-size:50px;">新增节点</button>
+<script>
+    function add() {
+        var t = document.querySelector('.three');
+        console.log(t.innerHTML);
+        t.innerHTML = t.innerHTML + '<p>' + (+new Date) + '</p>';
+    }
+</script>
+</body>
+</html>
