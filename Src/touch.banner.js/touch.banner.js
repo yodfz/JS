@@ -1,13 +1,13 @@
-///<reference path="touch.js">
+// <reference path="touch.js">
 /**
  * 轮播切换JS
  * author:zhaoyifeng
  * 需求:touch.js支持
  */
 (function (_, _fn) {
-    if (_["define"] != undefined && typeof define === "function" && define.amd) {
+    if (_['define'] !== undefined && typeof define === 'function' && define.amd) {
         define(_fn);
-    } else if (typeof exports === "object") {
+    } else if (typeof exports === 'object') {
         module.exports = _fn();
     } else {
         _.touchBanner = _fn();
@@ -22,7 +22,7 @@
         //
         //},
         getXY: function (_e) {
-            //用于扩展JQ的触摸事件
+            // 用于扩展JQ的触摸事件
             var $x, $y;
             if (_e.originalEvent && _e.originalEvent.changedTouches) {
                 $x = _e.originalEvent.changedTouches[0].pageX;
@@ -45,22 +45,26 @@
             _e.style[_key] = _s;
         }
     };
-    $fn = function (_opt) {
+    $fn = function (el, _opt) {
         var /*基本配置*/$opt = {},
         /**/ $si,
         /*表示是否已经触发TOUCH*/$isStart = false,
         /*表示touch触发位置*/$mouse = {};
         var $html = [], $i, /*记录当前BANNER的位置*/$bgX, $bgTransform;
-        var /*屏幕宽度*/$Width = Math.min(document.documentElement.clientWidth, window.innerWidth);
+        var /*屏幕宽度*/$Width = Math.min(document.documentElement.clientWidth, window.innerWidth, document.body.clientWidth);
         var $touchEvent;
-        if (typeof _opt === "string") {
-            $opt.id = _opt;
+        if (typeof el === "string") {
+            $opt.id = el;
             $opt.obj = document.querySelector($opt.id);
+        }
+        if (!$opt.obj) {
+            return;
         }
         //当前显示的序号
         $opt.index = 1;
         $opt.ele = {};
         //初始化节点
+        if ($opt.obj === null) return;
         $opt.ele.bg = $opt.obj.querySelector(".bg");
         $opt.ele.bgMove = $opt.obj.querySelector(".bgMove");
         $opt.ele.bgNode = $opt.obj.querySelectorAll(".bgNode");
@@ -94,6 +98,18 @@
 
         //挂接自动
         var touchobj = new touch($opt.obj);
+
+        //自动轮播
+        if (_opt) {
+            if (_opt.autoplay) {
+                $si = setInterval(function () {
+                    if (!$isStart) {
+                        $opt.index++;
+                        $touchEvent();
+                    }
+                }, _opt.autoplay);
+            }
+        }
         touchobj.start = function (e) {
             //阻止事件冒泡
             e.stopPropagation();
@@ -141,21 +157,18 @@
             else {
                 //用于复原
                 $utils.setCSS($opt.ele.bg, "transform", "translateX(" + (-$opt.index * $Width) + "px)");
+                $utils.setCSS($opt.ele.bg, "transition-duration", ".5s");
             }
             $mouse = null;
-            //自动轮播
-            $si=setInterval(function () {
-                if (!$isStart) {
-                    $opt.index++;
-                    $touchEvent();
-                }
-            }, 5000);
         };
         touchobj.move = function (e) {
-            e.preventDefault();
             if ($isStart && $mouse) {
                 $utils.setCSS($opt.ele.bg, "transition-duration", "0s");
                 var $nowMouse = $utils.getXY(e);
+                // TODO 解决屏蔽上下滑动问题
+                if (Math.abs($nowMouse.y - $mouse.y) > Math.abs($nowMouse.x - $mouse.x)) {
+                    e.preventDefault();
+                }
                 var $isleft = ($nowMouse.x - $mouse.x) < 0;
                 var $deviation = $nowMouse.x - $mouse.x;
                 $utils.setCSS($opt.ele.bg, "transform", "translateX(" + ($bgX + $deviation) + "px)");
@@ -167,6 +180,9 @@
         touchobj.cancel = function (e) {
             e.preventDefault();
         };
+
+
     };
+
     return $fn;
 }));

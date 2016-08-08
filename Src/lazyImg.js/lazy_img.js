@@ -25,7 +25,7 @@
 	//        isload:false
 	//    });
 	//}
-	var $layzImgTimeout, t;
+	var $layzImgTimeout, $layzImgLoadTimeout, t;
 	var $winHeight = window.innerHeight;
 	var lazyImg = function () {
 		$imgs = document.querySelectorAll("img[data-src]");
@@ -37,7 +37,12 @@
 	if (MutationObserver != null) {
 		var observer = new MutationObserver(function (mutations, observer) {
 			//console.log(mutations, observer);
-			lazyImg();
+			console.log('objserver');
+			clearTimeout($layzImgLoadTimeout);
+			$layzImgLoadTimeout = setTimeout(function () {
+				lazyImg();
+				window.onscroll();
+			}, 200);
 		});
 		observer.observe(document, {
 			subtree: true,
@@ -53,7 +58,11 @@
 		//（3）DOMNodeRemoved：在节点从其父节点中被移除时触发。
 		window.onload = function () {
 			document.body.addEventListener('DOMSubtreeModified', function () {
-				lazyImg();
+				console.log('DOMSubtreeModified');
+				$layzImgLoadTimeout = setTimeout(function () {
+					lazyImg();
+					window.onscroll();
+				}, 200);
 			}, false);
 		};
 	}
@@ -84,7 +93,7 @@
 					};
 				}
 			}
-		}, 500);
+		}, 200);
 	};
 	window.lazyImg = lazyImg;
 }());
