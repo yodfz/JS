@@ -30,12 +30,12 @@
 	var lazyImg = function () {
 		$imgs = document.querySelectorAll("img[data-src]");
 		$length = $imgs.length;
+		$winHeight = window.innerHeight;
 	};
 	// 查看是否支持监听DOM变动 MutationObserver
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 	if (MutationObserver != null) {
 		var observer = new MutationObserver(function (mutations, observer) {
-			console.log('MutationObserver Event');
 			//console.log(mutations, observer);
 			lazyImg();
 		});
@@ -53,7 +53,6 @@
 		//（3）DOMNodeRemoved：在节点从其父节点中被移除时触发。
 		window.onload = function () {
 			document.body.addEventListener('DOMSubtreeModified', function () {
-				console.log('DOMSubtreeModified Event');
 				lazyImg();
 			}, false);
 		};
