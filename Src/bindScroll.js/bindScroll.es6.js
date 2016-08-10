@@ -1,10 +1,11 @@
 let eventData = [];
-let isEvent = false;
-let t;
-//滚动条在Y轴上的滚动距离
+let t, onscrollEvent;
+// 滚动条在Y轴上的滚动距离
 
 let getScrollTop = () => {
-    var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+    let scrollTop = 0;
+    let bodyScrollTop = 0;
+    let documentScrollTop = 0;
     if (document.body) {
         bodyScrollTop = document.body.scrollTop;
     }
@@ -15,10 +16,12 @@ let getScrollTop = () => {
     return scrollTop;
 };
 
-//文档的总高度
+// 文档的总高度
 
 let getScrollHeight = () => {
-    var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+    let scrollHeight = 0;
+    let bodyScrollHeight = 0;
+    let documentScrollHeight = 0;
     if (document.body) {
         bodyScrollHeight = document.body.scrollHeight;
     }
@@ -29,11 +32,11 @@ let getScrollHeight = () => {
     return scrollHeight;
 };
 
-//浏览器视口的高度
+// 浏览器视口的高度
 
 let getWindowHeight = () => {
     var windowHeight = 0;
-    if (document.compatMode == "CSS1Compat") {
+    if (document.compatMode === 'CSS1Compat') {
         windowHeight = document.documentElement.clientHeight;
     } else {
         windowHeight = document.body.clientHeight;
@@ -42,7 +45,8 @@ let getWindowHeight = () => {
 };
 
 let checkBottom = () => {
-    if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+    // TODO 可以考虑这里加一些预留的参数底
+    if (getScrollTop() + getWindowHeight() >= getScrollHeight() - 50) {
         eventData.forEach(p=> {
             p();
         });
@@ -54,19 +58,22 @@ let checkBottom = () => {
 // TODO 滚动条自动加载
 export default {
     bind () {
-        let onscrollEvent = window.onscroll;
+        onscrollEvent = window.onscroll;
         window.onscroll = () => {
+            console.log('onscroll');
             onscrollEvent();
             clearTimeout(t);
             t = setTimeout(function () {
                 checkBottom();
             }, 300);
         };
+        console.log('bind');
     },
     push (event) {
         eventData.push(event);
     },
     clear () {
         eventData.length = 0;
+        window.onscroll = onscrollEvent;
     }
 };
