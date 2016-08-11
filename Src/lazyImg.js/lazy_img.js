@@ -15,7 +15,7 @@
 (function () {
 	var $imgs = document.querySelectorAll("img[data-src]");
 	var $length = $imgs.length;
-
+	var $oldload, $load = [];
 	//var $imgData=[];
 	//优化点1 可能可以取消
 	//for(var i= 0,item;item=$imgs[i++];){
@@ -32,41 +32,7 @@
 		$length = $imgs.length;
 		$winHeight = window.innerHeight;
 	};
-	// 查看是否支持监听DOM变动 MutationObserver
-	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-	if (MutationObserver != null) {
-		var observer = new MutationObserver(function (mutations, observer) {
-			//console.log(mutations, observer);
-			console.log('objserver');
-			clearTimeout($layzImgLoadTimeout);
-			$layzImgLoadTimeout = setTimeout(function () {
-				lazyImg();
-				window.onscroll();
-			}, 200);
-		});
-		observer.observe(document, {
-			subtree: true,
-			attributes: true,
-			childList: true, characterData: true
-		});
-	} else {
-		// 退化选择
-		//（1）DOMSubtreeModified：在DOM结构中发生的任何变化时触发。这个事件在其他任何事件触发后都会触发。
-		//
-		//（2）DOMNodeInserted：在一个节点作为子节点被插入到另一个节点中时触发。
-		//
-		//（3）DOMNodeRemoved：在节点从其父节点中被移除时触发。
-		window.onload = function () {
-			document.body.addEventListener('DOMSubtreeModified', function () {
-				console.log('DOMSubtreeModified');
-				$layzImgLoadTimeout = setTimeout(function () {
-					lazyImg();
-					window.onscroll();
-				}, 200);
-			}, false);
-		};
-	}
-	window.onscroll = function () {
+	var lazyImgScroll = function () {
 		t = document.documentElement.scrollTop || (document.body != null ? document.body.scrollTop : 0);
 		clearTimeout($layzImgTimeout);
 		t += $winHeight;
@@ -93,8 +59,56 @@
 					};
 				}
 			}
-		}, 200);
+		}, 100);
 	};
+	// 查看是否支持监听DOM变动 MutationObserver
+	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+	$oldload = window.onload;
+	if (MutationObserver != null) {
+		$load.push(function () {
+			var observer = new MutationObserver(function (mutations, observer) {
+				clearTimeout($layzImgLoadTimeout);
+				$layzImgLoadTimeout = setTimeout(function () {
+					lazyImg();
+					window.onscroll();
+				}, 200);
+			});
+			observer.observe(document, {
+				subtree: true,
+				//attributes: true,
+				childList: true
+				//characterData: true
+			});
+		});
+	} else {
+		// 退化选择
+		//（1）DOMSubtreeModified：在DOM结构中发生的任何变化时触发。这个事件在其他任何事件触发后都会触发。
+		//
+		//（2）DOMNodeInserted：在一个节点作为子节点被插入到另一个节点中时触发。
+		//
+		//（3）DOMNodeRemoved：在节点从其父节点中被移除时触发。
+		$load.push(function () {
+			document.body.addEventListener('DOMSubtreeModified', function () {
+				$layzImgLoadTimeout = setTimeout(function () {
+					lazyImg();
+					window.onscroll();
+				}, 200);
+			}, false);
+		});
+	}
+
+	window.onscroll = lazyImgScroll;
 	window.lazyImg = lazyImg;
+
+	$load.push(lazyImg);
+	$load.push(lazyImgScroll);
+	window.onload = function () {
+		$oldload && $oldload();
+		$load.forEach(function (p) {
+			p();
+		});
+		//window.lazyImg();
+		//window.onscroll();
+	};
 }());
 window.onscroll();
