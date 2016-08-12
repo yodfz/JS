@@ -1,13 +1,24 @@
 function setDPR() {
 	//定义设计稿宽度
+	var d = document;
 	const desWidth = 750;
-	//设置当前缩放比例
 	var _dpr = (1 / window.devicePixelRatio);
-	document.getElementById('viewport').setAttribute("content",
-		"width=device-width, initial-scale=" + _dpr + ", maximum-scale=" + _dpr + ", minimum-scale=" + _dpr + ", user-scalable=no");
-	var iWidth = Math.min(document.documentElement.clientWidth, window.innerWidth);
-	//定义1rem宽度
-	document.getElementsByTagName('html')[0].style.fontSize = (((100 * iWidth ) / desWidth)) + 'px';
+	const _MaxWidth = 414 * window.devicePixelRatio;
+	const userAgent = navigator.userAgent;
+	var widthStr = 'device-width';
+	var isMobile = true;
+	var iWidth = 0;
+	var _html = d.getElementsByTagName('html')[0];
+	if (userAgent.toLowerCase().indexOf('iphone') == -1 && userAgent.toLowerCase().indexOf('android') == -1) {
+		isMobile = false;//iWidth = _MaxWidth;
+		widthStr = iWidth + 'px';
+	}
+	d.querySelector('[name="viewport"]').setAttribute('content',
+		'width=' + widthStr + ' , initial-scale=' + _dpr + ', maximum-scale=' + _dpr + ', minimum-scale=' + _dpr + ', user-scalable=no');
+	iWidth = Math.min(d.documentElement.clientWidth, window.innerWidth);
+	if (!isMobile) iWidth = _MaxWidth;
+	_html.style.fontSize = (((100 * iWidth) / desWidth)) + 'px';
+	_html.dataset.dpr = window.devicePixelRatio;
 	/*
 	 (((100 * iWidth ) / desWidth)) * window.devicePixelRatio
 	 首先将当前屏幕宽度放大100倍,接着除以设计稿宽度,那么就得出了 100PX设计稿宽度 在当前屏幕是多少PX了

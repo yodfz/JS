@@ -1,4 +1,5 @@
 let eventData = [];
+let otherEvent = [];
 let t, onscrollEvent;
 // 滚动条在Y轴上的滚动距离
 
@@ -59,20 +60,30 @@ let checkBottom = () => {
 export default {
     bind () {
         onscrollEvent = window.onscroll;
-        window.onscroll = () => {
-            console.log('onscroll');
+        let event = () => {
             onscrollEvent();
             clearTimeout(t);
+            let scrollHeight = getScrollTop() + getWindowHeight();
+            otherEvent.forEach(p=> {
+                p(scrollHeight);
+            });
             t = setTimeout(function () {
                 checkBottom();
             }, 300);
         };
-        console.log('bind');
+        // TODO 如有性能问题 将此注释
+        // window.addEventListener('touchmove', event);
+        window.onscroll = event;
+        window.onscroll();
     },
     push (event) {
         eventData.push(event);
     },
+    pushOther (event) {
+        otherEvent.push(event);
+    },
     clear () {
+        console.log('clear');
         eventData.length = 0;
         window.onscroll = onscrollEvent;
     }

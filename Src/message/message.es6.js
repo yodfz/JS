@@ -1,13 +1,13 @@
 let template = `
     <div id="message_{{id}}" class="screenLock">
-    <div id="message_js_{{id}}" class="message animated {{animation}}In">
-        <div class="title">
+    <div id="message_js_{{id}}" class="lcs message animated {{animation}}In">
+        <div class="title lcs">
         {{title}}
         </div>
-        <div class="content">
+        <div class="content lcs">
         {{content}}
         </div>
-        <div class="buttonGroup">
+        <div class="buttonGroup lcs">
             {{button}}
         </div>
     </div></div>`;
@@ -38,9 +38,9 @@ export default {
 			.replace('{{animation}}', _animation);
 
 		let _btnHtml = [
-			`<button class="leftBtn js-cancel">取消</button>
-             <button class="rightBtn js-ok">确定</button>`,
-			`<button class="btn js-ok">
+			`<button class="leftBtn js-cancel lcs">取消</button>
+             <button class="rightBtn js-ok lcs">确定</button>`,
+			`<button class="btn js-ok lcs">
             确定</button>`
 		];
 		_html = _html.replace('{{button}}', _btnHtml[_type]);
