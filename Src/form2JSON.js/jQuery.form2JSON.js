@@ -1,6 +1,6 @@
 /**
  * 将表单数据转换成JSON数据
- * author:zyf(苍龙)
+ * author:yodfz
  * date:2015年10月28日09:17:34
  * 新增 data-form2JSON-filter 值为true的时候跳过此值的添加
  * date:2016年1月26日

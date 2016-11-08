@@ -41,7 +41,7 @@ module.exports = {
         include: projectRoot,
         exclude: /node_modules/,
         query: {
-          presets: ['react']
+          presets: ['es2015','react']
         }
       },
       {
