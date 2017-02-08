@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" style="font-size:200px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="checkbox" v-model="isAllSwitch" class="ui-switch ui-pr"/>
+<style>
+    .ui-pr {
+        position: absolute;
+        right: 0.5rem;
+        top: .06rem;
+    }
+    .ui-switch {
+        height: 0;
+        width: 0;
+        border:0;
+        margin-top:.2rem;
+    }
+
+    .ui-switch:checked:before {
+        background-color: rgb(68, 219, 94) !important;
+    }
+
+    .ui-switch:checked:after {
+        transform: translateX(.22rem);
+    }
+
+    .ui-switch:before {
+        position: absolute;
+        top:-.2rem;
+        left:-.2rem;
+        display: block;
+        width: .5rem;
+        height: .3rem;
+        border-radius: .15rem;
+        border: 1px solid #eee;
+        background-color: #fff;
+        content: ' ';
+        transition-duration: .5s;
+    }
+
+    .ui-switch:after {
+        display: block;
+        position: relative;
+        content: ' ';
+        top: -.19rem;
+        left:-.2rem;
+        height: .28rem;
+        width: .28rem;
+        border-radius: 50%;
+        border: 1px solid #eee;
+        box-shadow: -1px 1px 5px #888888;
+        background-color: #fff;
+        transition-duration: .5s;
+        transform: translateX(0);
+
+    }
+</style>
+</body>
+</html>
